@@ -1,0 +1,47 @@
+<div id="hero-container">
+<div id="slideshow">
+    <div style="display: block; background-image: url('app/assets/images/slideshow/slider2.jpg');"></div>
+</div>
+<div class="slideshowShadow"></div>
+<div class="search-panel">
+    <div class="container">
+        <form role="form" name="searchForm" novalidate="" class="ng-dirty ng-valid ng-valid-required">
+            <div class="col-md-12 padding padding0 margtop6">
+                <h4 class="ng-binding">
+                    Find a Ride
+                </h4>
+            </div>
+            <div class="col-md-3 col-custom">
+                <div class="form-group">
+                    <input type="text" googleplace class="form-control border-none" id="origin-place" placeholder="Eg.: New Delhi" required="" ng-model="originPlaceField"  options="autoCompleteOptions" ng-autocomplete="" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-custom">
+                <div class="form-group">
+                    <input type="text" googleplace class="form-control border-none" id="destination-place" placeholder="Eg.: Chandigarh" ng-model="destinationPlaceField"  options="autoCompleteOptions" ng-autocomplete="" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="col-md-2 ">
+                <p class="input-group">
+
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                  <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                  </span>
+                </p>
+            </div>
+
+
+            <div class="col-md-2 col-custom-button">
+                <div class="form-group">
+                    <button type="button" ng-click="searchRides()"  class="btn btn-success btn-block">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    </div>

@@ -1,0 +1,63 @@
+<div id="wrapper">
+    <div id="mapView">
+        <map id="mapCanvas" styles="[{stylers:[{hue:'#cccccc'},{saturation : -100}]},{featureType:'road',elementType:'label',stylers:[{visibility:'on'}]},{featureType:'road',elementType :'geometry',stylers:[{lightness : 100},{visibility : 'simplified'}]}]" zoom="14" center="-25.363882,131.044922" map-type-id="MapTypeId.ROADMAP" tilt="45">
+            <marker ng-repeat="pos in markers" position="{{[pos[1], pos[2]]}}"></marker>
+        </map>
+    </div>
+    <div id="content" class="">
+        <div class="filter">
+            <h3>Search results</h3>
+            <form class="filterForm">
+                <div class="form-group">
+                    <label for="from">From</label>
+                    <input type="text" googleplace class="form-control" ng-model="originPlace" options="autoCompleteOptions" ng-autocomplete="" autocomplete="off" id="from" placeholder="From">
+                </div>
+                <div class="form-group">
+                    <label for="to">To</label>
+                    <input type="text" googleplace class="form-control" ng-model="destinationPlace" options="autoCompleteOptions" ng-autocomplete="" autocomplete="off" id="to" placeholder="To">
+                </div>
+                <div ng-controller="pricingCtrl" class="priceSlider">
+                    <label for="to">Price</label>
+                  <slider floor="0" ceiling="600" ng-model-low="position.minAge" ng-model-high="position.maxAge"></slider>
+                </div>
+
+                <div class="form-group datepicker">
+                    <label for="to">Date</label>
+                    <input type="text"  class="form-control"  placeholder="Date">
+                </div>
+                <div class="form-group filterButtonHolder">
+                <button type="button" class="btn btn-success" ng-click="applyFilter()">Apply Filter</button>
+                </div>
+            </form>
+        </div>
+        <div class="resultsList">
+            <div class="">
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="card in cards">
+                    <a href="#/ride-detail/{{card.id}}" class="card" id="card-{{card.id}}">
+                        <div class="figure">
+                            <div class="img" style="background-image:url(http://mariusn.com/themes/reales-wp/wp-content/uploads/2014/12/bg-1.jpg);"></div>
+                            <div class="figCaption">
+                                <div>Rs {{card.price}}</div>
+                            </div>
+                            <div class="figView"><span class="icon-eye"></span></div>
+                            <div class="figType">New post</div>
+                        </div>
+                        <h2>{{card.userid}}</h2>
+                        <div class="cardAddress">{{card.departure}} --><br>{{card.arrival}}</div>
+                        <ul class="cardFeat">
+                            <li><span class="fa fa-moon-o"></span> 4</li>
+                            <li><span class="icon-drop"></span> 4</li>
+                            <li><span class="icon-frame"></span> {{card.distance}}</li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

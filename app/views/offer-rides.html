@@ -1,0 +1,204 @@
+<div id="wrapper" >
+    <div id="mapView">
+        <map styles="[{stylers:[{hue:'#cccccc'},{saturation : -100}]},{featureType:'road',elementType:'label',stylers:[{visibility:'on'}]},{featureType:'road',elementType :'geometry',stylers:[{lightness : 100},{visibility : 'simplified'}]}]" zoom="14" center="current-position" map-type-id="MapTypeId.ROADMAP" tilt="45">
+            <directions
+                    draggable="true"
+                    panel="directions-panel"
+                    origin="{{origin}}"
+                    on-directions_changed="directionsChanged(evt)"
+                    destination="{{destination}}">
+            </directions>
+           
+        </map>
+    </div>
+<div id="content">
+    <div class="singleTop">
+
+
+        <div class="summary">
+            <form novalidate name="offerRideForm" class="offer-ride-form">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="summaryItem">
+                        <h1 class="pageTitle">Exact route</h1>
+                       
+                          <div class="form-group" ng-class="{ 'has-error' : offerRideForm.departureField.$invalid && !offerRideForm.departureField.$pristine }">
+                            <label for="departure">Departure</label>
+                            <input required type="text" name="departureField" class="form-control" ng-change="rideChange()" googleplace  ng-model="ride.departureField" id="departure" placeholder="Enter departure place">
+                              <p ng-show="offerRideForm.departureField.$invalid && !offerRideForm.departureField.$pristine" class="help-block">Please enter departure place.</p>
+                          </div>
+                          <div class="form-group" ng-class="{ 'has-error' : offerRideForm.arrivalField.$invalid && !offerRideForm.arrivalField.$pristine }">
+                            <label for="arrival">Arrival</label>
+                            <input required type="text" name="arrivalField" class="form-control" ng-change="rideChange()" googleplace ng-model="ride.arrivalField" id="arrival" placeholder="Enter arrival place">
+                              <p ng-show="offerRideForm.arrivalField.$invalid && !offerRideForm.arrivalField.$pristine" class="help-block">Please enter arrival place.</p>
+                          </div>
+                  
+                         
+
+                        <div class="clearfix"></div>
+                  
+                    </div>
+                </div>
+             
+            </div>
+             <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="summaryItem">
+                        <h1 class="pageTitle">Date and time</h1>
+                       <div class="row">
+                            <div class="col-md-6" style="margin-top:15px;">
+                                <label for=""> Departure date:</label>
+                                <div class="input-group" ng-class="{ 'has-error' : offerRideForm.date.$invalid && !offerRideForm.date.$pristine }">
+                                   <div>
+                                  <input required name="date" type="text" class="form-control datePicker" datepicker-popup="{{format}}" ng-model="ride.dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+
+                                  <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                  </span>
+                                </div>
+                                    <p ng-show="offerRideForm.date.$invalid && !offerRideForm.date.$pristine" class="help-block">Please enter date.</p>
+                                </div>
+                            </div>
+                           <div class="col-xs-6">
+                              <timepicker ng-model="ride.mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                  
+                    </div>
+                </div>
+             
+            </div>
+             <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="summaryItem">
+                        <h1 class="pageTitle">Price per passanger</h1>
+                       <div class="row">
+                            <div class="col-md-12 ng-hide" ng-show="displayPath">
+                                <div class="well">{{departurePlace}} <i class="fa fa-long-arrow-right"></i> {{arrivalPlace}}</div>
+                            </div>
+                           <div class="col-xs-6">
+                             <div class="input-group" ng-class="{ 'has-error' : offerRideForm.price.$invalid && !offerRideForm.price.$pristine }">
+
+                              <div class="input-group-addon">&#8377;</div>
+                              <input required type="number" name="price" class="form-control" id="exampleInputAmount" placeholder="Price" ng-model="ride.price">
+
+                                 <p ng-show="offerRideForm.price.$invalid && !offerRideForm.price.$pristine" class="help-block">Please enter price.</p>
+                             <!-- <div class="input-group-addon">.00</div>-->
+                            </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                  
+                    </div>
+                </div>
+             
+            </div>
+             <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="summaryItem">
+                        <h1 class="pageTitle">Number of seats offered</h1>
+                       <div class="row">
+                            
+                           <div class="col-xs-6">
+                             <div class="input-group" ng-class="{ 'has-error' : offerRideForm.seats.$invalid && !offerRideForm.seats.$pristine }">
+                              <div class="input-group-addon"><i class="fa fa-automobile"></i></div>
+                              <input required type="number" name="seats" class="form-control" id="exampleInputAmount" placeholder="Seats" ng-model="ride.seats" value="">
+                                 <p ng-show="offerRideForm.seats.$invalid && !offerRideForm.seats.$pristine" class="help-block">Please enter seats.</p>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                  
+                    </div>
+                </div>
+             
+            </div>
+             <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="summaryItem">
+                        <h1 class="pageTitle">Further details</h1>
+                       <div class="row">
+                            
+                           <div class="col-xs-12">
+                             <div class="input-group">
+                                 <small>Please add further details about your ride - it'll save you answering lots of questions from co-travellers.</small>
+                             <textarea class="form-control" style="margin-bottom:20px;" ng-model="ride.futureDetails" rows="3"></textarea>
+                                 
+                              <div class="form-group" ng-class="{ 'has-error' : offerRideForm.luggage.$invalid && !offerRideForm.luggage.$pristine }">
+                                <label for="" class="col-sm-6 control-label">Maximum luggage size:</label>
+                                <div class="col-sm-6">
+                                  <select required class="form-control" ng-model="ride.luggage" name="luggage">
+                                    <option value="">Select luggage size</option>
+                                    <option value="small">Small</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="large">Large</option>
+                                  </select>
+                                    <p ng-show="offerRideForm.luggage.$invalid && !offerRideForm.luggage.$pristine" class="help-block">Please select luggage size.</p>
+                                </div>
+                              </div>
+                            <div class="form-group" ng-class="{ 'has-error' : offerRideForm.leave.$invalid && !offerRideForm.leave.$pristine }">
+                                <label for="" class="col-sm-6 control-label">I will leave:</label>
+                                <div class="col-sm-6">
+                                  <select required name="leave" class="form-control" ng-model="ride.leave">
+                                      <option value="">Select leave</option>
+                                      <option value="rightOnTime">Right on time</option>
+                                    <option value="15MinWindow">In a 15 min window</option>
+                                    <option value="30MinWIndow">In a 30 min window</option>
+                                  </select>
+                                    <p ng-show="offerRideForm.leave.$invalid && !offerRideForm.leave.$pristine" class="help-block">Please select leave.</p>
+                                </div>
+                              </div>
+                            <div class="form-group" ng-class="{ 'has-error' : offerRideForm.detour.$invalid && !offerRideForm.detour.$pristine }">
+                                <label for="" class="col-sm-6 control-label">I can make a detour:</label>
+                                <div class="col-sm-6">
+                                  <select required name="detour" ng-model="ride.detour" class="form-control">
+                                      <option value="">Select detour</option>
+                                      <option value="notWilling">I am not willing to take a detour</option>
+                                    <option value="15detour">15min detour max</option>
+                                    <option value="30detour">30min detour max</option>
+                                  </select>
+                                    <p ng-show="offerRideForm.detour.$invalid && !offerRideForm.detour.$pristine" class="help-block">Please select detour.</p>
+                                </div>
+                              </div>
+                            
+                            </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                  
+                    </div>
+                </div>
+             
+            </div>
+             <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="summaryItem">
+                        <div class="well">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox"> I hereby certify that I hold a driving licence and valid car insurance (See our T&Cs)
+                            </label>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                  
+                    </div>
+                </div>
+             
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" style="padding:0 20px 20px 20px;">
+                <button type="button" class="btn btn-success pull-right" ng-disabled="offerRideForm.$invalid" ng-click="publishOffer(ride)">Publish offer</button>
+                </div>
+            </div>
+                </form>
+        </div>
+       
+           
+       
+    </div>
+  
+</div>
+</div>

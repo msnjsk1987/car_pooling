@@ -1,0 +1,44 @@
+{
+  "status": "OK",
+  "rides": [
+    {
+      "id": "1",
+      "from": "Banashankari, Bengaluru, Karnataka",
+      "to": "Salem Junction, Suramangalam, Salem, Tamil Nadu, India",
+      "lat": 12.97,
+      "logit": 77.75,
+      "price": 300,
+      "seats": 5,
+      "distance": "200km",
+      "driver_id": 2,
+      "ride_date_time": "12/2/2015",
+      "created_date": "5/2/2015"
+    },
+    {
+      "id": "2",
+      "from": "Banashankari, Bengaluru, Karnataka",
+      "to": "Salem Junction, Suramangalam, Salem, Tamil Nadu, India",
+      "lat": 12.97,
+      "logit": 77.75,
+      "price": 300,
+      "seats": 5,
+      "distance": "500km",
+      "driver_id": 2,
+      "ride_date_time": "12/2/2015",
+      "created_date": "5/2/2015"
+    },
+    {
+      "id": "3",
+      "from": "Salem Junction, Suramangalam, Salem, Tamil Nadu, India",
+      "to": "Banashankari, Bengaluru, Karnataka",
+      "lat": 12.97,
+      "logit": 77.75,
+      "price": 300,
+      "seats": 5,
+      "distance": "700km",
+      "driver_id": 2,
+      "ride_date_time": "12/2/2015",
+      "created_date": "5/2/2015"
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+#slideshow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 600px;
+  div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: transparent;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: none;
+  }
+}
+.slideshowShadow {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.home-header {
+  position: absolute;
+  width: 100%;
+  padding: 20px;
+  top: 0;
+  left: 0;
+  z-index: 1060;
+  background: -moz-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.5)), color-stop(100%,rgba(0,0,0,0)));
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+  background: -o-linear-gradient(top, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+  background: -ms-linear-gradient(top, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80000000', endColorstr='#00000000',GradientType=0 );
+}
+.home-logo {
+  float: left;
+}
+.topUserWraper {
+  float: right;
+}
+.top-nav {
+  float: right;
+  -webkit-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  div{
+    float: right;
+  }
+  ul{
+    margin-right: 20px;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    float: right;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    li{
+      float: left;
+      margin-left: 20px;
+      padding-top: 10px;
+      position: relative;
+      a{
+        color: #fff;
+        text-decoration: none;
+      }
+      ul.sub-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        /* display: none; */
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        font-size: 13px;
+        background-color: #fff;
+        text-align: left;
+        list-style: none;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        border: 0 none;
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+        opacity: 0;
+        visibility: hidden;
+        margin-top: -20px;
+      }
+    }
+  }
+
+
+}
+
+ .user-nav {
+  float: right;
+  -webkit-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+   ul{
+     margin-right: 20px;
+     margin: 0;
+     padding: 0;
+     list-style-type: none;
+     float: right;
+     -webkit-transition: all .2s ease-in-out;
+     -o-transition: all .2s ease-in-out;
+     transition: all .2s ease-in-out;
+     li{
+       float: left;
+       margin-left: 20px;
+       padding-top: 10px;
+       position: relative;
+       a{
+         color: #fff;
+         text-decoration: none;
+       }
+     }
+     li{
+       padding-top: 0;
+     }
+   }
+
+}
+
+.search-panel {
+  background-color: rgba(0, 0, 0, 0.50);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  padding: 10px 20px 0 20px;
+  z-index: 15;
+}
+.search-panel form {
+  .col-custom {
+    width: 30%!important;
+    padding-right: 3px;
+    padding-left: 0;
+  }
+  .col-custom-button {
+
+    button {
+      border-radius: 0;
+      padding-left: 20px;
+      padding-right: 20px;
+      height: 40px;
+    }
+  }
+
+  .form-group {
+    margin: 0 5px 20px 5px;
+    position: relative;
+
+    input{
+      border-radius: 0;
+      padding-left: 20px;
+      padding-right: 20px;
+      height: 40px;
+    }
+  }
+}
+#hero-container {
+  background-color: #000;
+  height: 600px;
+  position: relative;
+}
+.headerLoginAvatar{
+    width: 40px !important;
+  height: 40px!important;
+}
+.login-dropdown{
+  top:35px;
+  border-radius: 0;
+  padding: 10px!important;
+    width: 300px;
+  
+  li{
+    margin-left: 0!important;
+    padding-top: 0!important;
+    width: 100%;
+      div:first-child{
+          font-weight: bold;
+      }
+      .profilePicHolder{
+          float: left;
+          width: 40%;
+          img{
+              width: 100%;
+          }
+      }
+      .profileDetail{
+          width: 60%;
+          float: left;
+          padding-left: 10px;
+      }
+  }
+}
+
+
+
+

@@ -1,0 +1,127 @@
+<!doctype html>
+<html class="no-js" ng-app="carPoolingApp">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+      <link rel='stylesheet' id='roboto-css'  href='http://fonts.googleapis.com/css?family=Roboto%3A400%2C300%2C500%2C700&#038;subset=latin%2Clatin-ext&#038;ver=4.1.1' type='text/css' media='all' />
+      <link rel='stylesheet' id='montserrat-css'  href='http://fonts.googleapis.com/css?family=Montserrat%3A400%2C700&#038;ver=4.1.1' type='text/css' media='all' />
+
+      <!-- build:css(.tmp) styles/main.css -->
+      <link rel="stylesheet" href="app/assets/css/style.css">
+
+    </head>
+   
+    <body>
+
+
+
+    <div class="home-header" ng-controller="loginController">
+        <div class="home-logo osLight">
+            <a href="#">
+                <span class="fa fa-home"></span> Car Pooling </a>
+        </div>
+
+        <div class="topUserWraper">
+            <a href="#" class="userNavHandler"><span class="icon-user"></span></a>
+            <div class="user-nav">
+                <ul>
+                    <li><a class="btn btn-success" ng-click="openModel()">Offer a ride</a></li>
+                    <li>
+                        <a ng-show="isLoggedIn"    ng-click="login()" class="btn btn-facebook btn-social ng-hide"  data-target="#"><i class="fa fa-facebook"></i>Login</a>
+
+                        <span ng-show="isLoggedOut"    class="dropdown" dropdown on-toggle="toggled(open)">
+                          <a href class="dropdown-toggle" dropdown-toggle>
+                              <img class="avatar agentAvatarImg headerLoginAvatar" src="{{profilePic}}" alt="">
+
+                          </a>
+                          <ul class="dropdown-menu pull-right login-dropdown" role="menu">
+                              <li>
+                                  <div class="profilePicHolder">
+                                  <img class="profilePic" src="{{profilePic}}" alt="">
+                                  </div>
+                                  <div class="profileDetail">
+                                      <div>{{welcomeMsg}}</div>
+                                      <div>{{loginMailId}}</div>
+                                  </div>
+                              </li>
+                              <li class="divider"></li>
+                              <li class="pull-right" style="text-align:center;">
+                                  <div class="btn-group" role="group">
+                                       <a href="#/my-account"  class="btn btn-success">My account</a>
+                                      <button type="button" class="btn btn-success">My trips</button>
+                                      <button type="button" ng-click="logout()" class="btn btn-success">Logout</button>
+                                    </div>
+                                  
+                              </li>
+                          </ul>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <a href="javascript:void(0);" class="top-navHandler visible-xs"><span class="fa fa-bars"></span></a>
+        <div class="top-nav">
+            <div class="menu-top-menu-container">
+                <ul id="menu-top-menu" class="menu">
+                    <li  class=""><a href="#/">Home</a></li>
+                    <li><a href="#howitWorks">How it works</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+               </ul>
+            </div>
+        </div>
+            <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Log in to car pooling to continue</h3>
+            <small>To publish your ride, please connect your Facebook account.<small>
+        </div>
+        <div class="modal-body">
+             <a ng-click="loginFacebook()" class="btn btn-facebook btn-social"  data-target="#"><i class="fa fa-facebook"></i>Login with facebook</a>
+        </div>
+        
+    </script>
+    </div>
+
+
+
+
+    <div >
+
+        <ng-view></ng-view>
+
+    </div>
+    <!-- gogole map api -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+
+    <!-- bower:js -->
+    <script src="app/assets/js/jquery.min.js"></script>
+
+    <script src="app/assets/js/angular.js"></script>
+    <script src="app/assets/js/angular-route.min.js"></script>
+    <script src="app/assets/js/slider.js"></script>
+    <script src="app/assets/js/ui-bootstrap.js"></script>
+    <script src="app/assets/js/ngFacebook.js"></script>
+
+
+
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="app.js"></script>
+    <script src="app/assets/js/ng-map.min.js"></script>
+    <script src="app/controllers/controller.js"></script>
+    <script src="app/directives/directives.js"></script>
+    <script src="app/services/services.js"></script>
+    <!-- endbuild -->
+        
+
+
+
+
+    </body>
+
+</html>

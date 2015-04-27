@@ -1,0 +1,94 @@
+.singleTop {
+  .summary{
+    padding: 20px 20px 0 20px;
+  }
+  .address {
+    font-size: 14px;
+    line-height: 14px;
+    color: #999;
+    padding: 0 0 15px 0;
+  }
+  .singlePrice {
+    float: left;
+  }
+  ul.features {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 15px;
+    border: 1px solid #e8e8e8;
+    float: left;
+    width: 100%;
+     li {
+      float: left;
+      width: 33.33%;
+      text-align: center;
+      padding: 15px 0;
+      border-right: 1px solid #e8e8e8;
+    }
+  }
+
+}
+#content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f3f3f3;
+  width: 50%;
+  height: 100px;
+  border-top: 1px solid #e8e8e8;
+  float: right;
+  -webkit-overflow-scrolling: touch;
+  .singleTop {
+    background-color: #fff;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .summaryItem {
+    margin-bottom: 20px;
+  }
+  h1.pageTitle {
+    margin: 0;
+    padding: 0 0 5px 0;
+    font-size: 18px;
+    line-height: 19px;
+    font-weight: normal;
+  }
+}
+.agentAvatar {
+  text-align: center;
+  .agentName{
+    margin-top: 10px;
+  }
+}
+.summaryItem {
+  margin-bottom: 20px;
+}
+.agentAvatarImg {
+  width: 60%;
+  height: auto;
+  border: 1px solid #e8e8e8;
+  padding: 3px;
+}
+.avatar {
+  border-radius: 50%;
+}
+.description{
+  padding: 20px 20px 0 20px;
+  h3 {
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0;
+    padding: 0 0 10px 0;
+  }
+  .entry-content{
+
+  }
+}
+.additional{
+  padding: 20px 20px 0 20px;
+  h3 {
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0;
+    padding: 0 0 10px 0;
+  }
+}
