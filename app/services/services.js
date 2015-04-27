@@ -1,5 +1,5 @@
 carApp.factory('getRidesService', function($http) {
-    var urlBase = 'http://localhost/sass/api/index.php/services/';
+    var urlBase = 'http://localhost/car_pooling/api/index.php/services/';
     var dataFactory = {};
 
     dataFactory.getRides = function (origin,destination) {
