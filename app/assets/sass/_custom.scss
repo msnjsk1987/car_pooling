@@ -50,7 +50,32 @@ html, body {height: 100%}
 .form-group input{
     border-radius: 0;
 }
-
+.inputMedium{
+    margin: 5px 0;
+    width: 200px;
+    height: 30px;
+    font-size: 15px;
+}
+.selectMedium{
+    margin: 5px 0;
+    width: 200px;
+    height: 30px;
+    font-size: 15px;
+}
+.login-btn-medium{
+    margin: 5px 0;
+    font-size: 15px;
+    width: 120px;
+}
+.signUp-btn-medium{
+    margin: 5px 0;
+    font-size: 15px;
+    width: 120px;
+}
+.or-text{
+    font-size: 16px;
+    margin: 20px 15px 0;
+}
 #preloader {
   position: fixed;
   display: table;
