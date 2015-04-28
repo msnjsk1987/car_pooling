@@ -33,7 +33,7 @@
     $scope.signUp = function() {
         $modal.open({
           templateUrl: 'signUp.html',
-          controller: 'ModalInstanceCtrl'
+          controller: 'ModalInstanceCtrl2'
         });
     }
     
@@ -92,15 +92,14 @@
           controller: 'ModalInstanceCtrl'
         });
          modalInstance.result.then(function (logArray) {
-
              if(logArray.logStatus){
-
-                       $scope.isLoggedIn = false;
-                       $scope.isLoggedOut = true;
-                         $scope.profilePic="http://graph.facebook.com/"+logArray.logResponse.id+"/picture?type=large";
-                         $scope.welcomeMsg = "Welcome " + logArray.logResponse.name;
-                         $scope.loginMailId=logArray.logResponse.email;
-                       $location.path('/offer-rides');
+                var loginType = logArray.logResponse.logtype;                 
+                    $scope.isLoggedIn = false;
+                    $scope.isLoggedOut = true;
+                    $scope.profilePic="http://graph.facebook.com/"+logArray.logResponse.id+"/picture?type=large";
+                    $scope.welcomeMsg = "Welcome " + logArray.logResponse.name;
+                    $scope.loginMailId=logArray.logResponse.email;
+                    $location.path('/offer-rides');
              }
             }, function () {
               $log.info('Modal dismissed at: ' + new Date());
@@ -115,32 +114,22 @@
 });
 
 
-carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance ,$facebook) {
+carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance,$facebook, getRidesService) {
     
-  $scope.loginNative = function($dataItms) {
-    
+    $scope.loginNative = function($dataItms) {    
      getRidesService.nativeLogin($dataItms).success(function(data){
-            $scope.logArray={
-                    logStatus:true,
-                    logResponse:data
-                }
-                $modalInstance.close($scope.logArray);
-            
+            $scope.logArray={ logStatus:true, logResponse:data }
+            //console.log($scope.logArray);  var a ="<img src='"+data.pic+"'>"; console.log(a);
+            $modalInstance.close($scope.logArray);           
         });
-               
- }  
- $scope.signUpNative = function($dataItms) {
-    
+    }               
+   
+    $scope.signUpNative = function($dataItms) {    
      getRidesService.nativeSignUp($dataItms).success(function(data){
-            $scope.logArray={
-                    logStatus:true,
-                    logResponse:data
-                }
-                $modalInstance.close($scope.logArray);
-            
-        });
-               
- }
+            $scope.logArray={ logStatus:true, logResponse:data }
+            $modalInstance.close($scope.logArray);            
+        });               
+    }
     
  $scope.loginFacebook=function(){
     

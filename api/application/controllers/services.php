@@ -101,10 +101,9 @@ class Services extends REST_Controller
         $email = $this->get('username');
         $pass = $this->get('password');
         if ($email && $pass) {
-            $userID = $this->Auth->loginUser($email, $pass);
-            if ($userID) {
-                $message = array('userid' => $userID, 'message' => 'User login has success', 'status' => 'success');
-                $this->response($message, 200); 
+            $data = $this->Auth->loginUser($email, $pass);
+            if ($data) {
+                $this->response($data, 200); 
             } else {
                 $this->response(array('error' => 'Invalid Username/Password'), 200);
             }

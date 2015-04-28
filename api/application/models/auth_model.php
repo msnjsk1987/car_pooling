@@ -18,15 +18,22 @@ class Auth_model extends CI_Model {
             $this->db->or_where('mobile_number =', $email);
             $query = $this->db->get();
             $userID = "";
-            $password = "";
+            $password = ""; 
             foreach ($query->result() as $row)
             {
                $userID = $row->user_id;
                $password = $row->password;
+               $email = $row->email_id;
+               $firstname = $row->first_name;
+               $lastname = $row->last_name;
+               $profilepic = $row->profile_picture;
+               $logtype = $row->logintype;
+               $soicalid = $row->social_id;
             }           
             if($userID && $this->check_password($password, $pass)){
                 $this->updateLoginTime($userID);
-                return $userID;
+                $data = array('userid'=>$userID,'firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'pic'=>$profilepic,'logtype'=>$logtype,'socialid'=>$soicalid,'status' => 'success');
+                return $data;
             }else{
                 return '';
             }
