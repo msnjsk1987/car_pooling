@@ -1,6 +1,14 @@
 carApp.factory('getRidesService', function($http) {
     var urlBase = 'http://localhost/car_pooling/api/index.php/services/';
     var dataFactory = {};
+    
+    dataFactory.nativeLogin = function(data) {
+        return $http({method:'GET', url:urlBase+'user', params:{username:data.username,password:data.password}});
+    }
+    
+    dataFactory.nativeSignUp = function(data) {
+        return $http.post(urlBase+'userSignUp',data);
+    }
 
     dataFactory.getRides = function (origin,destination) {
         return $http({method:'GET', url:urlBase+'getRides', params:{origin:origin,destination:destination}});

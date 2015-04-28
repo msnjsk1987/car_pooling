@@ -23,6 +23,20 @@
     console.log($facebook);
     $scope.isLoggedIn = true;
     $scope.isLoggedOut = false;
+    
+    $scope.siteLogin = function() {
+        $modal.open({
+          templateUrl: 'myModalContent.html',
+          controller: 'ModalInstanceCtrl'
+        });
+    }
+    $scope.signUp = function() {
+        $modal.open({
+          templateUrl: 'signUp.html',
+          controller: 'ModalInstanceCtrl'
+        });
+    }
+    
     $scope.login = function() {
         $facebook.login().then(function() {
             refresh();
@@ -102,6 +116,31 @@
 
 
 carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance ,$facebook) {
+    
+  $scope.loginNative = function($dataItms) {
+    
+     getRidesService.nativeLogin($dataItms).success(function(data){
+            $scope.logArray={
+                    logStatus:true,
+                    logResponse:data
+                }
+                $modalInstance.close($scope.logArray);
+            
+        });
+               
+ }  
+ $scope.signUpNative = function($dataItms) {
+    
+     getRidesService.nativeSignUp($dataItms).success(function(data){
+            $scope.logArray={
+                    logStatus:true,
+                    logResponse:data
+                }
+                $modalInstance.close($scope.logArray);
+            
+        });
+               
+ }
     
  $scope.loginFacebook=function(){
     

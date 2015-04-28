@@ -22,6 +22,7 @@ class Services extends REST_Controller
     {
         // Construct our parent class
         parent::__construct();
+        $this->load->model('Auth_model', 'Auth');
         
         // Configure limits on our controller methods. Ensure
         // you have created the 'limits' table and enabled 'limits'
@@ -96,39 +97,39 @@ class Services extends REST_Controller
 
 
     
-    function user_get()
-    {
-        if(!$this->get('id'))
-        {
-        	$this->response(NULL, 400);
-        }
-
-        // $user = $this->some_model->getSomething( $this->get('id') );
-    	$users = array(
-			1 => array('id' => 1, 'name' => 'Some Guy', 'email' => 'example1@example.com', 'fact' => 'Loves swimming'),
-			2 => array('id' => 2, 'name' => 'Person Face', 'email' => 'example2@example.com', 'fact' => 'Has a huge face'),
-			3 => array('id' => 3, 'name' => 'Scotty', 'email' => 'example3@example.com', 'fact' => 'Is a Scott!', array('hobbies' => array('fartings', 'bikes'))),
-		);
-		
-    	$user = @$users[$this->get('id')];
-    	
-        if($user)
-        {
-            $this->response($user, 200); // 200 being the HTTP response code
-        }
-
-        else
-        {
+    function user_get() {
+        $email = $this->get('username');
+        $pass = $this->get('password');
+        if ($email && $pass) {
+            $userID = $this->Auth->loginUser($email, $pass);
+            if ($userID) {
+                $message = array('userid' => $userID, 'message' => 'User login has success', 'status' => 'success');
+                $this->response($message, 200); 
+            } else {
+                $this->response(array('error' => 'Invalid Username/Password'), 200);
+            }
+        } else {
             $this->response(array('error' => 'User could not be found'), 404);
         }
     }
     
-    function user_post()
+    function userSignUp_post()
     {
-        //$this->some_model->updateUser( $this->get('id') );
-        $message = array('id' => $this->get('id'), 'name' => $this->post('name'), 'email' => $this->post('email'), 'message' => 'ADDED!');
-        
-        $this->response($message, 200); // 200 being the HTTP response code
+        $fname = $this->post('fname');
+        $lname = $this->post('lname');
+        $email = $this->post('email');
+        $mobile = $this->post('mobile');
+        $gender = $this->post('gender');
+        $password = $this->post('password');
+
+        $data = array('first_name' => $fname, 'last_name' => $lname, 'email_id' => $email, 'mobile_number' => $mobile, 'gender' => $gender, 'password' => $this->create_password($password), 'last_login_time' => date('Y-m-d H:i:s'));
+        $insertID = $this->Auth->insertUser($data);
+        if ($insertID) {
+            $message = array('userid' => $insertID,'message' => 'User has added successfully', 'status' => 'success');
+            $this->response($message, 200); 
+        } else {
+            $this->response(array('error' => 'User could not be found'), 404);
+        }
     }
     
     function user_delete()

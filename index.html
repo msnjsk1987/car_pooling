@@ -35,7 +35,9 @@
             <div class="user-nav">
                 <ul>
                     <li><a class="btn btn-success" ng-click="openModel()">Offer a ride</a></li>
-                    <li>
+                    <li><a class="btn btn-success" ng-click="siteLogin()">Login</a></li>
+                    <li><a class="btn btn-success" ng-click="signUp()">Sign Up</a></li>
+                    <!--<li>
                         <a ng-show="isLoggedIn"    ng-click="login()" class="btn btn-facebook btn-social ng-hide"  data-target="#"><i class="fa fa-facebook"></i>Login</a>
 
                         <span ng-show="isLoggedOut"    class="dropdown" dropdown on-toggle="toggled(open)">
@@ -64,7 +66,7 @@
                               </li>
                           </ul>
                         </span>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -83,10 +85,33 @@
             <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
             <h3 class="modal-title">Log in to car pooling to continue</h3>
-            <small>To publish your ride, please connect your Facebook account.<small>
+            <small>To publish your ride, please connect either Carpool or Facebook account.<small>
         </div>
-        <div class="modal-body">
-             <a ng-click="loginFacebook()" class="btn btn-facebook btn-social"  data-target="#"><i class="fa fa-facebook"></i>Login with facebook</a>
+        <div class="modal-body">  
+            <a ng-click="loginFacebook()" class="btn btn-facebook btn-social"  data-target="#"><i class="fa fa-facebook"></i>Login with facebook</a>
+            <p class="or-text"> or </p>
+            <form novalidate name="LoginFrom" class="login-form">
+                <input required ng-model="login.username" id="username" name="username" placeholder="Username" class="inputMedium" type="text"><br>
+                <input required ng-model="login.password" id="password" name="password" placeholder="Password" type="password" class="inputMedium" type="text"><br>
+                <button type="submit" class="login-btn-medium" ng-click="loginNative(login)">Sign In</button>                
+            </form>             
+        </div>
+        
+    </script>
+    <script type="text/ng-template" id="signUp.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Sign Up</h3>            
+        </div>
+        <div class="modal-body">  
+            <form novalidate name="signUpFrom" class="signUp-form">
+            <input required ng-model="signUp.fname" id="fname" name="fname" placeholder="First Name" class="inputMedium" type="text"><br>
+            <input required ng-model="signUp.lname" id="lname" name="lname" placeholder="Last Name" class="inputMedium" type="text"><br>
+            <input required ng-model="signUp.email" id="email" name="email" placeholder="Email" class="inputMedium" type="text"><br>
+            <input required ng-model="signUp.password" id="password" name="password" placeholder="Password" type="password" class="inputMedium" type="text"><br>
+            <input required ng-model="signUp.mobile" id="mobile" name="mobile" placeholder="Mobile" class="inputMedium" type="text"><br>
+            <select required ng-model="signUp.gender" id="gender" name="gender" class="selectMedium"><option value="1" selected="selected">Male</option><option value="2">Female</option></select><br/>
+            <button type="submit" class="signUp-btn-medium" ng-click="signUpNative(signUp)">Sign In</button>                
+            </form>             
         </div>
         
     </script>
