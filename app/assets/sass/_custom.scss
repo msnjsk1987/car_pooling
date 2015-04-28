@@ -50,3 +50,101 @@ html, body {height: 100%}
 .form-group input{
     border-radius: 0;
 }
+
+#preloader {
+  position: fixed;
+  display: table;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000;
+    opacity: 0.6;
+  z-index: 999999999;
+    .tb-cell {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    #page-loading 
+    {
+    div {
+      width: 40px;
+      height: 40px;
+      margin: auto;
+      border-right: 3px solid #0eaaa6;
+      border-bottom: 3px solid transparent;
+      border-radius: 100%;
+      -webkit-animation: spin .9s linear infinite;
+      -moz-animation: spin .9s linear infinite;
+      -o-animation: spin .9s linear infinite;
+      animation: spin .9s linear infinite;
+    }
+         p {
+          text-align: center;
+          text-transform: uppercase;
+          z-index: 99;
+          padding: 10px 0;
+          color: #fff;
+          font-size: 12px;
+          overflow: hidden;
+          margin-top: 5px;
+        }
+    }
+    
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    50% {
+        transform: rotate(180deg)
+    }
+
+    100% {
+        transform: rotate(359deg)
+    }
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg)
+    }
+}
+
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg)
+    }
+
+    50% {
+        -moz-transform: rotate(180deg)
+    }
+
+    100% {
+        -moz-transform: rotate(359deg)
+    }
+}
+
+@-o-keyframes spin {
+    0% {
+        -o-transform: rotate(0deg)
+    }
+
+    50% {
+        -o-transform: rotate(180deg)
+    }
+
+    100% {
+        -o-transform: rotate(359deg)
+    }
+}

@@ -15,7 +15,14 @@
    
     <body>
 
-
+   <div id="preloader" style="display: none;">
+        <div class="tb-cell">
+            <div id="page-loading">
+                <div></div>
+                <p>Loading</p>
+            </div>
+        </div>
+    </div>
 
     <div class="home-header" ng-controller="loginController">
         <div class="home-logo osLight">
@@ -93,6 +100,8 @@
         <ng-view></ng-view>
 
     </div>
+        
+
     <!-- gogole map api -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 
