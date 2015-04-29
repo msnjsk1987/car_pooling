@@ -8,6 +8,7 @@ html, body {height: 100%}
   position: relative;
   padding-left: 44px;
   text-align: left;
+  top:70px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -50,32 +51,29 @@ html, body {height: 100%}
 .form-group input{
     border-radius: 0;
 }
-.inputMedium{
-    margin: 5px 0;
-    width: 200px;
-    height: 30px;
-    font-size: 15px;
+.login-divider{
+  border-left: 1px solid;
+    border-color: #e5e5e5;
+  position: absolute;
+  height: 100%;
+  left: -15px;
 }
-.selectMedium{
-    margin: 5px 0;
-    width: 200px;
-    height: 30px;
-    font-size: 15px;
+.orText{
+    position: absolute;
+  /* height: 100%; */
+  left: -30px;
+  top: 70px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #0eaaa6;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+  display: inline-block;
+  line-height: 30px;
 }
-.login-btn-medium{
-    margin: 5px 0;
-    font-size: 15px;
-    width: 120px;
-}
-.signUp-btn-medium{
-    margin: 5px 0;
-    font-size: 15px;
-    width: 120px;
-}
-.or-text{
-    font-size: 16px;
-    margin: 20px 15px 0;
-}
+
 #preloader {
   position: fixed;
   display: table;
@@ -171,5 +169,15 @@ html, body {height: 100%}
 
     100% {
         -o-transform: rotate(359deg)
+    }
+}
+.login-form{
+    label{
+        font-size: 14px;
+        float: left;
+    }
+    p{
+        text-align: left;
+        font-size: 12px;
     }
 }

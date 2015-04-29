@@ -1,11 +1,12 @@
-.searchResult 
+.searchResult
 {
-#content {
-  overflow-x: hidden;
-  overflow-y: auto;
+    padding-top:80px;
+
+}
+#wrapper {
+
   background-color: #f3f3f3;
   border-top: 1px solid #e8e8e8;
-  -webkit-overflow-scrolling: touch;
   padding-top: 70px;
   .filter h3 {
     margin-top: 0;
@@ -15,7 +16,6 @@
     float: left;
     font-weight: normal;
   }
-}
 }
 .filter {
   background-color: #fff;

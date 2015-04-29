@@ -5,22 +5,16 @@
     function windowResizeHandler() {
         windowHeight = window.innerHeight;
         contentHeight = windowHeight;
-        $('#wrapper').height(contentHeight);
-        $('#mapView').height(contentHeight);
-        $('map').height(contentHeight);
+        $('#wrapper').height(contentHeight-70);
+        $('#mapView').height(contentHeight-70);
+        $('map').height(contentHeight-70);
         $('#content').height(contentHeight-70);
 
     }
 
 
-
-
-
-
-
-
     carApp.controller('loginController',function($scope,$facebook,$modal,$location,getRidesService){
-    console.log($facebook);
+
     $scope.isLoggedIn = true;
     $scope.isLoggedOut = false;
     
@@ -219,23 +213,17 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
 
     getRidesService.getRides(fromParam,toParam).success(function(data){
         $scope.cards=data;
-        var geocoder = new google.maps.Geocoder();
-       
-        for(var i=0;i<data.length;i++){
-             geocoder.geocode( { 'address': data[i].departure}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-
-                console.log (results[0].geometry.location);
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
+        var priceArray=[];
+        for(var i=0; i<data.length;i++){
+                priceArray.push(data[i].price);
         }
-        
+       
+         $scope.minPrice=Math.min.apply(null, priceArray);
+         $scope.maxPrice=Math.max.apply(null, priceArray);
        
 
-
-
+       
+      
 
     });
 
@@ -243,16 +231,7 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
 
 });
 
-/** price slider controller
- * search result page
- */
-carApp.controller('pricingCtrl',function($scope){
-    $scope.position = {
-        name: 'Potato Master',
-        minAge: 0,
-        maxAge: 600
-    };
-});
+
 
 /** Ride detail page controller
  * gmap height adjustment

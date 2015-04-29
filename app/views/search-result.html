@@ -1,11 +1,5 @@
 <div id="wrapper" class="searchResult">
-    <div class="row" id="content" >
-    <!--<div id="mapView">
-        <map id="mapCanvas" styles="[{stylers:[{hue:'#cccccc'},{saturation : -100}]},{featureType:'road',elementType:'label',stylers:[{visibility:'on'}]},{featureType:'road',elementType :'geometry',stylers:[{lightness : 100},{visibility : 'simplified'}]}]" zoom="14" center="-25.363882,131.044922" map-type-id="MapTypeId.ROADMAP" tilt="45">
-            <marker ng-repeat="pos in markers" position="{{[pos[1], pos[2]]}}"></marker>
-        </map>
-    </div>-->
-     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" >
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" >
         <div class="filter">
             <h3>Search results</h3>
             <form class="filterForm">
@@ -17,9 +11,16 @@
                     <label for="to">To</label>
                     <input type="text" googleplace class="form-control" ng-model="destinationPlace" options="autoCompleteOptions" ng-autocomplete="" autocomplete="off" id="to" placeholder="To">
                 </div>
-                <div ng-controller="pricingCtrl" class="priceSlider">
-                    <label for="to">Price</label>
-                  <slider floor="0" ceiling="600" ng-model-low="position.minAge" ng-model-high="position.maxAge"></slider>
+                <div  class="priceSlider">
+                  
+                    <div class="form-group ">
+                    <label for="to">Min price</label>
+                    <input type="number"  class="form-control" ng-model="minPrice"  placeholder="Min price">
+                </div>
+                    <div class="form-group ">
+                    <label for="to">Max price</label>
+                    <input type="number"  class="form-control" ng-model="maxPrice"  placeholder="Max price">
+                </div>
                 </div>
 
                 <div class="form-group datepicker">
@@ -32,11 +33,9 @@
             </form>
         </div>
         </div>
-    
-   
-         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
+     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
         <div class="resultsList">
-            <div class="">
+            <div class="row">
 
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" ng-repeat="card in cards">
                     <a href="#/ride-detail/{{card.id}}" class="card" id="card-{{card.id}}">
@@ -66,5 +65,4 @@
        
     </div>
         </div>
-</div>
 </div>
