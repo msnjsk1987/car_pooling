@@ -1,10 +1,10 @@
+.searchResult 
+{
 #content {
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #f3f3f3;
-  width: 50%;
   border-top: 1px solid #e8e8e8;
-  float: right;
   -webkit-overflow-scrolling: touch;
   padding-top: 70px;
   .filter h3 {
@@ -15,6 +15,7 @@
     float: left;
     font-weight: normal;
   }
+}
 }
 .filter {
   background-color: #fff;

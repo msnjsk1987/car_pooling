@@ -212,20 +212,27 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
     var toParam=searchQuery[1];
     $scope.originPlace=fromParam;
     $scope.destinationPlace=toParam;
+    
+ 
 
 
 
     getRidesService.getRides(fromParam,toParam).success(function(data){
         $scope.cards=data;
         var geocoder = new google.maps.Geocoder();
-        geocoder.geocode( { 'address': data[0].departure}, function(results, status) {
+       
+        for(var i=0;i<data.length;i++){
+             geocoder.geocode( { 'address': data[i].departure}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
 
-                $scope.mapCenter= (results[0].geometry.location);
+                console.log (results[0].geometry.location);
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
+        }
+        
+       
 
 
 
