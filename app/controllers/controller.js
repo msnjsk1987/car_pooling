@@ -18,18 +18,8 @@
     $scope.isLoggedIn = true;
     $scope.isLoggedOut = false;
     
-    $scope.siteLogin = function() {
-        $modal.open({
-          templateUrl: 'myModalContent.html',
-          controller: 'ModalInstanceCtrl'
-        });
-    }
-    $scope.signUp = function() {
-        $modal.open({
-          templateUrl: 'signUp.html',
-          controller: 'ModalInstanceCtrl2'
-        });
-    }
+
+   
     
     $scope.login = function() {
         $facebook.login().then(function() {
@@ -76,29 +66,37 @@
     
     
     $scope.openModel = function (size) {
-    $scope.status = $facebook.isConnected()
-       
-    if( $scope.status){
-         $location.path('/offer-rides');
-    }else{
+    $scope.status = $facebook.isConnected();
+  
         var modalInstance = $modal.open({
           templateUrl: 'myModalContent.html',
           controller: 'ModalInstanceCtrl'
         });
          modalInstance.result.then(function (logArray) {
+           
              if(logArray.logStatus){
-                var loginType = logArray.logResponse.logtype;                 
+                    var loginType = logArray.logResponse.logtype;
+                   if(loginType=="facebook"){
                     $scope.isLoggedIn = false;
                     $scope.isLoggedOut = true;
                     $scope.profilePic="http://graph.facebook.com/"+logArray.logResponse.id+"/picture?type=large";
                     $scope.welcomeMsg = "Welcome " + logArray.logResponse.name;
                     $scope.loginMailId=logArray.logResponse.email;
                     $location.path('/offer-rides');
+                   }else{
+                    $scope.isLoggedIn = false;
+                    $scope.isLoggedOut = true;
+                    $scope.profilePic=logArray.logResponse.pic;
+                    $scope.welcomeMsg = "Welcome " + logArray.logResponse.name;
+                    $scope.loginMailId=logArray.logResponse.email;
+                    $location.path('/offer-rides');
+                       
+                   }
              }
             }, function () {
               $log.info('Modal dismissed at: ' + new Date());
             });
-    }
+    
         
    
 
@@ -112,9 +110,13 @@ carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance,$faceboo
     
     $scope.loginNative = function($dataItms) {    
      getRidesService.nativeLogin($dataItms).success(function(data){
-            $scope.logArray={ logStatus:true, logResponse:data }
-            //console.log($scope.logArray);  var a ="<img src='"+data.pic+"'>"; console.log(a);
-            $modalInstance.close($scope.logArray);           
+           if(data.error){
+               $scope.loginErrorMsg=data.error;
+           }else{
+               console.log(data);
+                $scope.logArray={ logStatus:true, logResponse:data ,logType:"native" }
+                $modalInstance.close($scope.logArray);
+           }
         });
     }               
    
@@ -133,8 +135,10 @@ carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance,$faceboo
 
                 $scope.logArray={
                     logStatus:true,
-                    logResponse:response
-                }
+                    logResponse:response,
+                    logType:"facebook"
+                };
+                
                 $modalInstance.close($scope.logArray);
 
                
@@ -145,9 +149,7 @@ carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance,$faceboo
       });
  }
 
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
+ 
 });
 
 
