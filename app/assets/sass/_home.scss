@@ -1,3 +1,21 @@
+.spotlight {
+  background-color: #0eaaa6;
+  padding: 30px;
+  text-align: center;
+  .s-title {
+    color: #fff;
+    font-size: 26px;
+    line-height: 30px;
+    padding-bottom: 10px;
+  }
+  .s-text {
+    color: #fff;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 18px;
+    padding: 0 30%;
+  }
+}
 .feature-menu {
   height: 260px;
   overflow: hidden;

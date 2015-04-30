@@ -288,6 +288,16 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
         $scope.detour =data[0].detour;
         $scope.leave =data[0].leave;
         $scope.luggage =data[0].luggage_size;
+        $scope.user_type=data[0].user_type;
+        if($scope.user_type=="facebook"){
+            $scope.profilePicture="http://graph.facebook.com/" + data[0].userid + "/picture?type=large";
+        }else{
+            getRidesService.getUserDetails(data[0].userid).success(function (data) {
+                $scope.profilePicture=data[0].profile_picture;
+            });
+
+
+        }
     });
 
 
