@@ -13,18 +13,19 @@
 
     </head>
    
-    <body>
+    <body ng-controller="loginController">
 
-   <div id="preloader" style="display: none;">
-        <div class="tb-cell">
-            <div id="page-loading">
-                <div></div>
-                <p>Loading</p>
+
+
+    <div class="home-header" >
+        <div id="preloader" ng-show="loader">
+            <div class="tb-cell">
+                <div id="page-loading">
+                    <div></div>
+                    <p>Loading</p>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="home-header" ng-controller="loginController">
         <div class="home-logo osLight">
             <a href="#">
                 <span class="fa fa-home"></span> Car Pooling </a>
@@ -82,6 +83,7 @@
                </ul>
             </div>
         </div>
+        <!-- login popup model --->
             <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
             <h3 class="modal-title">Log in to car pooling to continue</h3>
@@ -117,6 +119,40 @@
         </div>
         
     </script>
+    <!-- contact driver popup model -->
+        <script type="text/ng-template" id="contactDriverModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Contact {{driverName}} to book your seat</h3>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" ng-click="isCollapsed = !isCollapsed">Click to view driver mobile number</button>
+                        <div collapse="isCollapsed" style="margin-top: 10px;">
+                            <div class="well well-lg">{{driverMobileNumber}}</div>
+                        </div>
+                        <form novalidate name="contactDriverForm">
+                            <p class="loginError" ng-model="loginError">{{loginErrorMsg}}</p>
+                            <div class="form-group" ng-class="{ 'has-error' : contactDriverForm.message.$invalid && !contactDriverForm.message.$pristine }">
+                                <label for="message" class="pull-left">Message</label>
+                                <textarea required  class="form-control" ng-model="contactDriver.message" id="message" name="message" placeholder="Contact this car owner via private message here: you can ask them about journey details and seat availability." ></textarea>
+                                <p ng-show="contactDriverForm.message.$invalid && !contactDriverForm.message.$pristine" class="help-block">Please enter username.</p>
+                            </div>
+
+
+
+                            <button type="submit" class="btn btn-primary pull-right" ng-disabled="contactDriverForm.$invalid" ng-click="sendMessageDriver(contactDriver)">Send</button>
+                        </form>
+                    </div>
+                </div>
+
+        </script>
+
+
+
+
+
     <script type="text/ng-template" id="signUp.html">
         <div class="modal-header">
             <h3 class="modal-title">Sign Up</h3>            

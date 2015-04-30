@@ -99,3 +99,26 @@
     padding: 0 0 10px 0;
   }
 }
+.nameTxt{
+  margin: 0;
+  padding: 0 0 5px 0;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: normal;
+}
+.icon-list{
+  padding-left:0;
+  li{
+    list-style: none;
+  }
+  .verified{
+    color:#58b20d;
+  }
+  .notVerified{
+    color:#dd1144;
+  }
+}
+.pricePanel{
+  font-size: 20px;
+  line-height: 20px;
+}

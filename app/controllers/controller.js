@@ -13,7 +13,10 @@
     }
 
 
+
+
     carApp.controller('loginController',function($scope,$facebook,$modal,$location,getRidesService){
+    $scope.loader=true;
 
     $scope.isLoggedIn = true;
     $scope.isLoggedOut = false;
@@ -34,7 +37,9 @@
    
     
     $scope.login = function() {
+
         $facebook.login().then(function() {
+            $scope.loader=true;
             refresh();
 
         });
@@ -67,12 +72,13 @@
                 $scope.isLoggedIn = false;
                 $scope.isLoggedOut = true;
                 sessionStorage.uid=response.id;
-
+                $scope.loader=false;
             },
             function(err) {
                 //$scope.welcomeMsg = "Please log in";
                 $scope.isLoggedOut = false;
                 $scope.isLoggedIn = true;
+                $scope.loader=false;
 
             });
     }
@@ -218,9 +224,11 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
     ];
 
     $scope.applyFilter=function(){
+        $scope.loader=true;
         getRidesService.getRides($scope.originPlace,$scope.destinationPlace).success(function(data){
             console.log(data);
             $scope.cards=data;
+            $scope.loader=false;
         });
 
     }
@@ -231,6 +239,7 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
     var toParam=searchQuery[1];
     $scope.originPlace=fromParam;
     $scope.destinationPlace=toParam;
+    $scope.loader=true;
     
  
 
@@ -245,11 +254,8 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
        
          $scope.minPrice=Math.min.apply(null, priceArray);
          $scope.maxPrice=Math.max.apply(null, priceArray);
-       
 
-       
-      
-
+        $scope.loader=false;
     });
 
 
@@ -262,9 +268,12 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
  * gmap height adjustment
  * gmap direction service
  */
-carApp.controller('rideDetailController',function($scope,getRidesService,$routeParams){
-   
-    
+carApp.controller('rideDetailController',function($scope,getRidesService,$routeParams,$modal){
+
+    $scope.loader=true;
+    $scope.rate = 3;
+    $scope.max = 5;
+    $scope.isReadonly = true;
     windowResizeHandler();
     var directionsService = new google.maps.DirectionsService();
     $scope.meter = 7;
@@ -273,7 +282,7 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
     var rideId=$routeParams.id;
 
     getRidesService.getRidesDetails(rideId).success(function(data){
-        console.log(data);
+
         $scope.origin = data[0].departure;
         $scope.destination =data[0].arrival;
         $scope.originPlace= data[0].departure;
@@ -291,20 +300,60 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
         $scope.user_type=data[0].user_type;
         if($scope.user_type=="facebook"){
             $scope.profilePicture="http://graph.facebook.com/" + data[0].userid + "/picture?type=large";
+            $scope.loader=false;
         }else{
             getRidesService.getUserDetails(data[0].userid).success(function (data) {
                 $scope.profilePicture=data[0].profile_picture;
+                $scope.userName=data[0].first_name;
+                $scope.mobileNumber=data[0].mobile_number;
+                if(data[0].mobile_verified==0){
+                    $scope.mobileVerifiedStatus="notVerified";
+                    $scope.mobileVerifiedMsg='Phone number not verified';
+                }else{
+                    $scope.mobileVerified="verified";
+                    $scope.mobileVerifiedMsg="Phone number verified";
+                }
+                if(data[0].email_verified==0){
+                    $scope.emailVerifiedStatus="notVerified";
+                    $scope.emailVerifiedMsg='Email address not verified';
+                }else{
+                    $scope.emailVerified="verified";
+                    $scope.emailVerifiedMsg="Email address verified";
+                }
+                $scope.loader=false;
             });
 
 
         }
     });
 
+    //contactDriver controller
+    $scope.contactDriver=function(){
+        if(!sessionStorage.length>0) {
+               $scope.openModel();
+        }else{
+            $scope.driverDetails = [{'diverName':$scope.userName,'driverNumber':$scope.mobileNumber}];
 
+            var modalInstance  = $modal.open({
+                templateUrl: 'contactDriverModal.html',
+                controller: 'contactDriverModalInstanceCtrl',
+                resolve: {
+                    items: function () {
+                        return $scope.driverDetails;
+                    }
+                }
+            });
+        }
+    }
 
+});
 
-
-    
+    /**contact driver modal controller
+     */
+carApp.controller('contactDriverModalInstanceCtrl', function ($scope, $modalInstance , getRidesService,items) {
+    $scope.isCollapsed = true;
+    $scope.driverName=items[0].diverName;
+    $scope.driverMobileNumber=items[0].driverNumber;
 });
 
 
