@@ -17,21 +17,44 @@
 
     $scope.isLoggedIn = true;
     $scope.isLoggedOut = false;
-    
+        var userId=sessionStorage.uid;
+     if(sessionStorage.logType=="native") {
+         getRidesService.getUserDetails(userId).success(function (data) {
+             console.log(data);
+             $scope.isLoggedIn = false;
+             $scope.isLoggedOut = true;
+             $scope.profilePic=data[0].profile_picture;
+             $scope.welcomeMsg = "Welcome " + data[0].first_name;
+             $scope.loginMailId=data[0].email_id;
+         });
+     }else{
+         refresh();
+     }
 
    
     
     $scope.login = function() {
         $facebook.login().then(function() {
             refresh();
+
         });
     }
 
 
     $scope.logout=function(){
-        $facebook.logout().then(function(){
-            refresh();
-        })
+        $scope.fStatus = $facebook.isConnected();
+        if($scope.fStatus) {
+            $facebook.logout().then(function () {
+                refresh();
+                sessionStorage.clear();
+                $location.path('/');
+            });
+        }else{
+            sessionStorage.clear();
+            $scope.isLoggedIn = true;
+            $scope.isLoggedOut = false;
+            $location.path('/');
+        }
     }
 
     function refresh() {
@@ -44,60 +67,60 @@
                 $scope.isLoggedIn = false;
                 $scope.isLoggedOut = true;
                 sessionStorage.uid=response.id;
-                getRidesService.storeUidSession(response.id).success(function(data){
-                    console.log(data);
 
-                });
             },
             function(err) {
                 //$scope.welcomeMsg = "Please log in";
                 $scope.isLoggedOut = false;
                 $scope.isLoggedIn = true;
-                getRidesService.destorySession().success(function(data){
-                    console.log(data);
 
-                });
             });
     }
-    refresh();
+
     
     
     
     
     
     $scope.openModel = function (size) {
-    $scope.status = $facebook.isConnected();
-  
+    if(!sessionStorage.length>0) {
+
         var modalInstance = $modal.open({
-          templateUrl: 'myModalContent.html',
-          controller: 'ModalInstanceCtrl'
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalInstanceCtrl'
         });
-         modalInstance.result.then(function (logArray) {
-           
-             if(logArray.logStatus){
-                    var loginType = logArray.logResponse.logtype;
-                   if(loginType=="facebook"){
+        modalInstance.result.then(function (logArray) {
+
+            if (logArray.logStatus) {
+                var loginType = logArray.logType;
+                if (loginType == "facebook") {
                     $scope.isLoggedIn = false;
                     $scope.isLoggedOut = true;
-                    $scope.profilePic="http://graph.facebook.com/"+logArray.logResponse.id+"/picture?type=large";
+                    $scope.profilePic = "http://graph.facebook.com/" + logArray.logResponse.id + "/picture?type=large";
                     $scope.welcomeMsg = "Welcome " + logArray.logResponse.name;
-                    $scope.loginMailId=logArray.logResponse.email;
-                    $location.path('/offer-rides');
-                   }else{
+                    $scope.loginMailId = logArray.logResponse.email;
+
+                    sessionStorage.uid = logArray.logResponse.id;
+                    sessionStorage.logType = 'facebook';
+                } else {
                     $scope.isLoggedIn = false;
                     $scope.isLoggedOut = true;
-                    $scope.profilePic=logArray.logResponse.pic;
-                    $scope.welcomeMsg = "Welcome " + logArray.logResponse.name;
-                    $scope.loginMailId=logArray.logResponse.email;
-                    $location.path('/offer-rides');
-                       
-                   }
-             }
-            }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-            });
-    
-        
+                    $scope.profilePic = logArray.logResponse.pic;
+                    $scope.welcomeMsg = "Welcome " + logArray.logResponse.firstname;
+                    $scope.loginMailId = logArray.logResponse.email;
+
+                    sessionStorage.uid = logArray.logResponse.userid;
+                    sessionStorage.logType = 'native';
+
+                }
+            }
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+
+    }else{
+        $location.path('/offer-rides');
+    }
    
 
   };

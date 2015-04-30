@@ -21,4 +21,10 @@ class Model extends CI_Model {
            return $query->result_array();
         }
 
+    function getUserDetails($data){
+       $this->db->where($data);
+                  $query = $this->db->get('users');
+                  return $query->result_array();
+    }
+
 }

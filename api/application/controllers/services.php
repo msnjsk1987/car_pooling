@@ -93,7 +93,13 @@ class Services extends REST_Controller
 
      }
 
-
+     function getUserDetails_get(){
+         $data=array(
+             'user_id'=>$this->get('id')
+         );
+         $userDetails = $this->Model->getUserDetails($data);
+         $this->response($userDetails, 200); // 200 being the HTTP response code
+     }
 
 
     
