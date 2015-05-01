@@ -271,7 +271,7 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
 carApp.controller('rideDetailController',function($scope,getRidesService,$routeParams,$modal){
 
     $scope.loader=true;
-    $scope.rate = 3;
+
     $scope.max = 5;
     $scope.isReadonly = true;
     windowResizeHandler();
@@ -279,9 +279,31 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
     $scope.meter = 7;
     $scope.travelMode='DRIVING';
 
-    var rideId=$routeParams.id;
 
+
+    var rideId=$routeParams.id;
     getRidesService.getRidesDetails(rideId).success(function(data){
+
+        /** get distance and time from google map
+         * @type {google.maps.DirectionsService}
+         */
+        directionsService = new google.maps.DirectionsService()
+        var request = {
+            origin: data[0].departure,
+            destination:data[0].arrival,
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+        directionsService.route(request, function(response, status)
+        {
+            if (status == google.maps.DirectionsStatus.OK)
+            {
+                console.log(response);
+                $scope.distance=response.routes[0].legs[0].distance.text;
+                $scope.travelTime=response.routes[0].legs[0].duration.text;
+            }
+        });
+
+
 
         $scope.origin = data[0].departure;
         $scope.destination =data[0].arrival;
@@ -305,19 +327,26 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
             getRidesService.getUserDetails(data[0].userid).success(function (data) {
                 $scope.profilePicture=data[0].profile_picture;
                 $scope.userName=data[0].first_name;
+
+                var birthYear=data[0].birth_year;
+                var d = new Date();
+                var n = d.getFullYear();
+                $scope.age=n-birthYear;
+                $scope.rate = data[0].rating;
+                $scope.createdDate=data[0].created_date;
                 $scope.mobileNumber=data[0].mobile_number;
                 if(data[0].mobile_verified==0){
                     $scope.mobileVerifiedStatus="notVerified";
                     $scope.mobileVerifiedMsg='Phone number not verified';
                 }else{
-                    $scope.mobileVerified="verified";
+                    $scope.mobileVerifiedStatus="verified";
                     $scope.mobileVerifiedMsg="Phone number verified";
                 }
                 if(data[0].email_verified==0){
                     $scope.emailVerifiedStatus="notVerified";
                     $scope.emailVerifiedMsg='Email address not verified';
                 }else{
-                    $scope.emailVerified="verified";
+                    $scope.emailVerifiedStatus="verified";
                     $scope.emailVerifiedMsg="Email address verified";
                 }
                 $scope.loader=false;
