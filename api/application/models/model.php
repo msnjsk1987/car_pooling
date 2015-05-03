@@ -27,4 +27,15 @@ class Model extends CI_Model {
                   return $query->result_array();
     }
 
+    function saveFbUserDetails($data){
+        $this->db->insert('users', $data);
+        return $this->db->insert_id();
+    }
+
+    function checkUser($id){
+         $this->db->where('social_id=',$id);
+         $query = $this->db->get('users');
+         return $query->result_array();
+    }
+
 }

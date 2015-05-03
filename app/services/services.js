@@ -2,8 +2,27 @@ carApp.factory('getRidesService', function($http) {
     var urlBase = 'http://localhost/car_pooling/api/index.php/services/';
     var dataFactory = {};
 
-    dataFactory.getUserDetails=function(id){
-        return $http({method:'GET', url:urlBase+'getUserDetails', params:{id:id}});
+    dataFactory.getUserDetails=function(id,type){
+        return $http({method:'GET', url:urlBase+'getUserDetails', params:{id:id,uType:type}});
+    }
+    dataFactory.storeFacebookUser=function(data){
+        console.log(data);
+        var gender="";
+        if(data.logResponse.gender=='male'){
+            gender=1
+        }else{
+            gender=2
+        }
+        var facebookUserData = {
+            social_id: data.logResponse.id,
+            first_name:data.logResponse.first_name,
+            last_name:data.logResponse.last_name,
+            gender:gender,
+            email_id:data.logResponse.email
+        };
+
+        return $http.post(urlBase+'facebookUserSignUp',facebookUserData);
+
     }
     
     dataFactory.nativeLogin = function(data) {

@@ -105,9 +105,13 @@
                     $scope.profilePic = "http://graph.facebook.com/" + logArray.logResponse.id + "/picture?type=large";
                     $scope.welcomeMsg = "Welcome " + logArray.logResponse.name;
                     $scope.loginMailId = logArray.logResponse.email;
-
                     sessionStorage.uid = logArray.logResponse.id;
                     sessionStorage.logType = 'facebook';
+
+                    getRidesService.storeFacebookUser(logArray).success(function(data){
+                        console.log(data);
+                    });
+
                 } else {
                     $scope.isLoggedIn = false;
                     $scope.isLoggedOut = true;
@@ -284,6 +288,8 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
     var rideId=$routeParams.id;
     getRidesService.getRidesDetails(rideId).success(function(data){
 
+
+
         /** get distance and time from google map
          * @type {google.maps.DirectionsService}
          */
@@ -297,7 +303,6 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
         {
             if (status == google.maps.DirectionsStatus.OK)
             {
-                console.log(response);
                 $scope.distance=response.routes[0].legs[0].distance.text;
                 $scope.travelTime=response.routes[0].legs[0].duration.text;
             }
@@ -320,11 +325,38 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
         $scope.leave =data[0].leave;
         $scope.luggage =data[0].luggage_size;
         $scope.user_type=data[0].user_type;
+
         if($scope.user_type=="facebook"){
-            $scope.profilePicture="http://graph.facebook.com/" + data[0].userid + "/picture?type=large";
-            $scope.loader=false;
+            getRidesService.getUserDetails(data[0].userid,$scope.user_type).success(function (data) {
+                console.log(data);
+                $scope.userName=data[0].first_name;
+                $scope.profilePicture="http://graph.facebook.com/" + data[0].social_id + "/picture?type=large";
+                var birthYear=data[0].birth_year;
+                var d = new Date();
+                var n = d.getFullYear();
+                $scope.age=n-birthYear;
+                $scope.rate = data[0].rating;
+                $scope.createdDate=data[0].created_date;
+                $scope.mobileNumber=data[0].mobile_number;
+                if(data[0].mobile_verified==0){
+                    $scope.mobileVerifiedStatus="notVerified";
+                    $scope.mobileVerifiedMsg='Phone number not verified';
+                }else{
+                    $scope.mobileVerifiedStatus="verified";
+                    $scope.mobileVerifiedMsg="Phone number verified";
+                }
+                if(data[0].email_verified==0){
+                    $scope.emailVerifiedStatus="notVerified";
+                    $scope.emailVerifiedMsg='Email address not verified';
+                }else{
+                    $scope.emailVerifiedStatus="verified";
+                    $scope.emailVerifiedMsg="Email address verified";
+                }
+                $scope.loader=false;
+            });
+
         }else{
-            getRidesService.getUserDetails(data[0].userid).success(function (data) {
+            getRidesService.getUserDetails(data[0].userid,$scope.user_type).success(function (data) {
                 $scope.profilePicture=data[0].profile_picture;
                 $scope.userName=data[0].first_name;
 
@@ -423,6 +455,7 @@ carApp.controller('offerRidesController',function($scope,getRidesService){
         var uid=sessionStorage.uid;
         var data=$dataItms;
         data.userid=uid;
+        data.userType=sessionStorage.logType;
 
             getRidesService.postOffers(data).success(function(data){
                     console.log(data);

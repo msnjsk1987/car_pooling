@@ -50,7 +50,8 @@ class Services extends REST_Controller
                          'leave' =>  $this->post('leave'),
                          'detour' => $this->post('detour'),
                          'userid' =>$this->post('userid'),
-                         'created_date' =>date('Y-m-d H:i:s')
+                         'created_date' =>date('Y-m-d H:i:s'),
+                         'user_type'=>$this->post('userType')
                      );
             $offerRide = $this->Model->saveOfferRide($data);
             $this->response($offerRide, 200); // 200 being the HTTP response code
@@ -75,7 +76,25 @@ class Services extends REST_Controller
 
 
 
+    function facebookUserSignUp_post(){
+            $data=array(
+                 'social_id'=> $this->post('social_id'),
+                  'logintype'=>'facebook',
+                 'first_name'=>$this->post('first_name'),
+                 'last_name'=>$this->post('last_name'),
+                  'gender'=>$this->post('gender'),
+                  'email_id'=>$this->post('email_id'),
 
+              );
+            $checkUser=$this->Model->checkUser($this->post('social_id'));
+            if(!$checkUser){
+               $saveDetails = $this->Model->saveFbUserDetails($data);
+            }else{
+               $saveDetails="facebook user registed already";
+            }
+
+          $this->response($saveDetails, 200); // 200 being the HTTP response code
+    }
 
 
      function storeUsersIdSession_post(){
@@ -94,8 +113,13 @@ class Services extends REST_Controller
      }
 
      function getUserDetails_get(){
+     if($this->get('uType')=='facebook'){
+         $searchRow='social_id';
+     }else{
+        $searchRow='user_id';
+     }
          $data=array(
-             'user_id'=>$this->get('id')
+             $searchRow=>$this->get('id')
          );
          $userDetails = $this->Model->getUserDetails($data);
          $this->response($userDetails, 200); // 200 being the HTTP response code
