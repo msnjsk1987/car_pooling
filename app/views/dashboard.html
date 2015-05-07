@@ -235,9 +235,32 @@
         <div class="tabContainer">
             <div class="tabContainerModule">
                 
-                <div class="panel-heading">Add Car</div>
-          
-            <div class="row" style="padding-top:20px;">
+            <div ng-show="showCarDetail">
+                <div class="panel-heading">Your car</div>
+                 <div class="row" style="padding-top:20px;">
+                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12 ">
+                 <div class="row">
+              
+                  <div class="agent pull-left" style="padding-left:20px;">
+                        <div class="agent-avatar" style="border-radius:0">
+                            <img style="border-radius:0" src="http://www.skoda-auto.com/SiteCollectionImages/models/new-fabia/fabia/fabia/overview/fabia-overview-6reasons-bottom.jpg" alt="Jane Smith">
+                        </div>
+                    </div>
+                 <div class="yourCar-info" ng-show="showCarDetail">
+                        <p class="car-name">{{carDetails[0].make_name}} [{{carDetails[0].model_name}} ]</p>  
+                        <p>color: {{carDetails[0].car_color}}</p>
+                        <p>Comfort: {{carDetails[0].car_comfort}}</p>
+                        <button class="btn btn-warning" ng-click="editCar()">Edit car</button>
+                    </div>     
+                     
+                     
+                     </div>
+                </div>
+                </div>  
+            </div>
+            <div ng-show="showAddCar">
+                 <div class="panel-heading">Add Car</div>
+                   <div class="row" style="padding-top:20px;">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 pb20">
                     
                 <div class="row">
@@ -253,48 +276,59 @@
                                         
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-9 pb20">
-                    <form novalidate>
+                    <form novalidate name="carAddForm">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{ 'has-error' : carAddForm.carMake.$invalid && !carAddForm.carMake.$pristine }">
                         <label>Make</label>
-                        <select class="form-control" ng-model="car.makeModel" ng-change="getMakeData(car.makeModel)">
-                          <option ng-repeat="make in carAllMakes" value="{{make.makeid}}">{{make.makename}}</option>
+                        <select required class="form-control" name="carMake" ng-options="opt.makename for opt in carAllMakes"  ng-model="car.makeModel" ng-change="getMakeData(car.makeModel)">
+                            <option value="">Select a car make</option>
+                         <!-- <option ng-repeat="make in carAllMakes" value="{{make.makeid}}">{{make.makename}}</option>-->
+                            
                         </select>
+                         <p ng-show="carAddForm.carMake.$invalid && !carAddForm.carMake.$pristine" class="help-block">Please enter departure place.</p>
                     </div>
                     </div>
                     
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{ 'has-error' : carAddForm.carModel.$invalid && !carAddForm.carModel.$pristine }">
                         <label>Model</label>
-                        <select class="form-control" ng-model="car.model">
+                        <select required class="form-control" name="carModel"  ng-model="car.model">
                          <option ng-repeat="models in carAllModels" value="{{models.modeid}}">{{models.modelname}}</option>
                         </select>
+                        <p ng-show="carAddForm.carModel.$invalid && !carAddForm.carModel.$pristine" class="help-block">Please enter departure place.</p>
                     </div>
                     </div>
                     
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{ 'has-error' : carAddForm.carComfort.$invalid && !carAddForm.carComfort.$pristine }">
                         <label>Comfort</label>
-                        <select class="form-control" ng-model="car.comfort">
+                        <select required class="form-control" name="carComfort"  ng-model="car.comfort">
                         <option value="Basic">Basic</option><option value="Normal" selected="selected">Normal</option><option value="Comfortable">Comfortable</option><option value="Luxury">Luxury</option>
                         </select>
+                        <p ng-show="carAddForm.carComfort.$invalid && !carAddForm.carComfort.$pristine" class="help-block">Please enter departure place.</p>
                     </div>
                     </div>
                     
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{ 'has-error' : carAddForm.carColor.$invalid && !carAddForm.carColor.$pristine }">
                         <label>Color</label>
                         
-                        <select class="form-control" ng-model="car.color">
+                        <select required class="form-control" name="carColor"  ng-model="car.color">
                           <option value="black" selected="selected">black</option><option value="blue">blue</option><option value="dark green">dark green</option><option value="green">green</option><option value="dark blue">dark blue</option><option value="dark grey">dark grey</option><option value="purple">purple</option><option value="brown">brown</option><option value="claret">claret</option><option value="light green">light green</option><option value="light blue">light blue</option><option value="light grey">light grey</option><option value="mauve">mauve</option><option value="red">red</option><option value="pink">pink</option><option value="orange">orange</option><option value="yellow">yellow</option><option value="white">white</option><option value="silver">silver</option><option value="gold">gold</option>
                         </select>
+                        <p ng-show="carAddForm.carColor.$invalid && !carAddForm.carColor.$pristine" class="help-block">Please enter departure place.</p>
                     </div>
                         
-                        <input type="button" class="btn btn-primary pull-right" ng-click="saveCar(car)" value="Save" />
+                        <input type="button" ng-disabled="carAddForm.$invalid" class="btn btn-primary pull-right" ng-click="saveCar(car)" value="Save" />
                     </div>
                 </form>
                 </div>
             </div>
+            </div>  
+                
+               
+          
+         
             
            
            

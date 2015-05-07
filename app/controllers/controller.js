@@ -468,6 +468,8 @@ carApp.controller('offerRidesController',function($scope,getRidesService){
  */
 carApp.controller('dashboardController',function($scope,getRidesService){
     
+    
+    
     var userId=sessionStorage.uid;
     var userType=sessionStorage.logType;
     getRidesService.getUserDetails(userId,userType).success(function (data) {
@@ -491,15 +493,30 @@ carApp.controller('dashboardController',function($scope,getRidesService){
        });
     }
     
+    $scope.editCar=function(){
+         $scope.showAddCar=true;
+        $scope.showCarDetail=false;
+    }
+    
   getRidesService.getUserCarDetails(userId).success(function (data) {
       $scope.carDetails=data;
+ 
+      
+      
       if($scope.carDetails.length==0){
           $scope.showAddCar=true;
+         
+          
       }else{
           $scope.showCarDetail=true;
       }
       
   });
+    
+  
+   
+    
+ 
    
     
     getRidesService.getCarDetails().success(function (data) {
@@ -519,8 +536,11 @@ carApp.controller('dashboardController',function($scope,getRidesService){
         });
         $scope.carAllMakes = carmodels;
         
+        
+     
+        
   $scope.getMakeData = function(make){
-            
+      
       var i,j=0, carmodels =[];
       
         for(i=0;i<data.length;i++){
@@ -535,6 +555,9 @@ carApp.controller('dashboardController',function($scope,getRidesService){
         carmodels.sort(function(a, b){
             return ((a.modelname < b.modelname) ? -1 : ((a.modelname > b.modelname) ? 1 : 0));
         });
+      
+     
+      
         $scope.carAllModels =  carmodels;
        
     };   
