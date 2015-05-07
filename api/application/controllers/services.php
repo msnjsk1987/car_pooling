@@ -152,7 +152,7 @@ class Services extends REST_Controller
         $password = $this->post('password');
 
         $data = array('first_name' => $fname, 'last_name' => $lname, 'email_id' => $email, 'mobile_number' => $mobile, 'gender' => $gender, 'password' => $this->create_password($password), 'last_login_time' => date('Y-m-d H:i:s'));
-        $insertID = $this->Auth->insertUser($data);
+        $insertID = $this->Auth->insertUser($data,$email,$mobile);
         if ($insertID && $insertID != 0) {
             $message = array('userid' => $insertID,'message' => 'User has added successfully', 'status' => 'success');
             $this->response($message, 200); 
@@ -234,4 +234,26 @@ class Services extends REST_Controller
 	{
 		var_dump($this->put('foo'));
 	}
+        
+    /**
+     * Password Functionality   
+     */
+
+    private static $algo = '$2a';
+    private static $cost = '$10';
+
+    public static function unique_salt() {
+        return substr(sha1(mt_rand()), 0, 22);
+    }
+
+    public static function create_password($password) {
+
+        return crypt($password, self::$algo .
+                self::$cost .
+                '$' . self::unique_salt());
+    }
+
+    /**
+     * End Password Functionality  
+     */
 }

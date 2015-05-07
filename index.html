@@ -163,16 +163,39 @@
             <h3 class="modal-title">Sign Up</h3>            
         </div>
         <div class="modal-body">
-     
-            <form novalidate name="signUpFrom" class="signUp-form">
-            <input required ng-model="signUp.fname" id="fname" name="fname" placeholder="First Name" class="inputMedium" type="text"><br>
-            <input required ng-model="signUp.lname" id="lname" name="lname" placeholder="Last Name" class="inputMedium" type="text"><br>
-            <input required ng-model="signUp.email" id="email" name="email" placeholder="Email" class="inputMedium" type="text"><br>
-            <input required ng-model="signUp.password" id="password" name="password" placeholder="Password" type="password" class="inputMedium" type="text">
-            <input required ng-model="signUp.mobile" id="mobile" name="mobile" placeholder="Mobile" class="inputMedium" type="text"><br>
-            <select required ng-model="signUp.gender" id="gender" name="gender" class="selectMedium"><option value="1" selected="selected">Male</option><option value="2">Female</option></select><br/>
-            <button type="submit" class="signUp-btn-medium" ng-click="signUpNative(signUp)">Sign In</button>                
-            </form>             
+            <div class="row">             
+                <div class="col-md-10">
+                <p class="loginError" ng-model="signUpError">{{signUpSuccessMsg}}</p>
+                    <form novalidate name="signUpFrom" class="signUp-form">
+                    <p class="loginError" ng-model="signUpError">{{signUpErrorMsg}}</p>
+                    <div class="form-group" >
+                        <label for="fname">First Name</label>
+                        <input required ng-model="signUp.fname" id="fname" name="fname" placeholder="First Name" class="form-control" type="text">
+                    </div>
+                    <div class="form-group" >
+                        <label for="lname">Last Name</label>
+                        <input required ng-model="signUp.lname" id="lname" name="lname" placeholder="Last Name" class="form-control" type="text">
+                    </div>
+                    <div class="form-group" >
+                        <label for="email">Email</label>
+                        <input required ng-model="signUp.email" id="email" name="email" placeholder="Email" class="form-control" type="text">
+                    </div>
+                    <div class="form-group" >
+                        <label for="password">Password</label>
+                        <input required ng-model="signUp.password" id="password" name="password" placeholder="Password" type="password" class="form-control" type="text">
+                    </div>
+                    <div class="form-group" >
+                        <label for="mobile">Mobile</label>
+                        <input required ng-model="signUp.mobile" id="mobile" name="mobile" placeholder="Mobile" class="form-control" type="text">
+                    </div>
+                    <div class="form-group" >
+                        <label for="gender">Gender</label>
+                        <select required ng-model="signUp.gender" id="gender" name="gender" class="form-control"><option value="1" selected="selected">Male</option><option value="2">Female</option></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-right" ng-click="signUpNative(signUp)" >Sign Up</button>                
+                    </form> 
+                </div>                
+            </div>
         </div>
         
     </script>

@@ -83,8 +83,12 @@
             });
     }
 
-    
-    
+    $scope.signUp = function(){      
+            var modalInstance = $modal.open({
+                templateUrl: 'signUp.html',
+                controller: 'ModalInstanceCtrl'
+            });
+    };  
     
     
     
@@ -112,12 +116,12 @@
                     });
 
                 } else {
+                                     
                     $scope.isLoggedIn = false;
                     $scope.isLoggedOut = true;
                     $scope.profilePic = logArray.logResponse.pic;
                     $scope.welcomeMsg = "Welcome " + logArray.logResponse.firstname;
                     $scope.loginMailId = logArray.logResponse.email;
-
                     sessionStorage.uid = logArray.logResponse.userid;
                     sessionStorage.logType = 'native';
 
@@ -134,7 +138,6 @@
 
   };
     
-    
 });
 
 
@@ -150,12 +153,16 @@ carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance,$faceboo
                 $modalInstance.close($scope.logArray);
            }
         });
-    }               
-   
+    } 
+    
     $scope.signUpNative = function($dataItms) {    
      getRidesService.nativeSignUp($dataItms).success(function(data){
-            $scope.logArray={ logStatus:true, logResponse:data }
-            $modalInstance.close($scope.logArray);            
+            if(data.error){
+               $scope.signUpErrorMsg=data.error;
+           }else{
+               $('.signUp-form').css('display','none');
+               $scope.signUpSuccessMsg=data.message;               
+           }                      
         });               
     }
     
@@ -182,6 +189,22 @@ carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance,$faceboo
  
 });
 
+/** Native SignUp controller
+ *  signup functionality
+ */
+
+//carApp.controller('NativeSignUpCtrl', function ($scope, signUpInstance,getRidesService) {   
+//      
+// $scope.signUpNative = function($dataItms) {    
+//     getRidesService.nativeSignUp($dataItms).success(function(data){
+//            $scope.logArray={ logStatus:true, logResponse:data }
+//            signUpInstance.close($scope.logArray); 
+//            
+//        });               
+//    }
+//
+// 
+//});
 
 /**home page controller
  * search functionality

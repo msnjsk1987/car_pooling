@@ -6,9 +6,9 @@ class Auth_model extends CI_Model {
         parent::__construct();
     }
 	
-	function insertUser($data){      
-            $data = $this->checkUserName($data['email_id'], $data['mobile_number']);
-            if(empty($data)){
+	function insertUser($data,$email,$mobile){      
+            $arraySet = $this->checkUserName($email, $mobile);
+            if(empty($arraySet)){
                 $this->db->insert('users', $data);
                 return $this->db->insert_id();
             }else{
