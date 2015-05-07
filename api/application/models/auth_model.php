@@ -6,36 +6,58 @@ class Auth_model extends CI_Model {
         parent::__construct();
     }
 	
-	function insertUser($data){            
-	    $this->db->insert('users', $data);
-            return $this->db->insert_id();
+	function insertUser($data){      
+            $data = $this->checkUserName($data['email_id'], $data['mobile_number']);
+            if(empty($data)){
+                $this->db->insert('users', $data);
+                return $this->db->insert_id();
+            }else{
+                return 0;
+            }
+	    
 	}
         
-        function loginUser($email,$pass){
+        function checkUserName($email,$mobile){
+            $whereCase = '(email_id = "'.$email.'")';
             $this->db->select('*');
             $this->db->from('users');
-            $this->db->where('email_id =', $email);
-            $this->db->or_where('mobile_number =', $email);
-            $query = $this->db->get();
+            $this->db->where($whereCase);
+            $query = $this->db->get();           
+            $data = "";
+            $data =  $query->result();
+            if(empty($data)){
+                $whereCase = '(mobile_number = "'.$mobile.'")';
+                $this->db->select('*');
+                $this->db->from('users');
+                $this->db->where($whereCase);
+                $query = $this->db->get();
+                $data =  $query->result();
+            }  
+            return $data;
+        }
+        function loginUser($email,$pass){
+            $data = $this->checkUserName($email, $email);
+            if(!empty($data)){
             $userID = "";
-            $password = ""; 
-            foreach ($query->result() as $row)
-            {
-               $userID = $row->user_id;
-               $password = $row->password;
-               $email = $row->email_id;
-               $firstname = $row->first_name;
-               $lastname = $row->last_name;
-               $profilepic = $row->profile_picture;
-               $logtype = $row->logintype;
-               $soicalid = $row->social_id;
-            }           
-            if($userID && $this->check_password($password, $pass)){
-                $this->updateLoginTime($userID);
-                $data = array('userid'=>$userID,'firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'pic'=>$profilepic,'logtype'=>$logtype,'socialid'=>$soicalid,'status' => 'success');
-                return $data;
-            }else{
-                return '';
+            $password = "";                      
+                foreach ($data as $row)
+                {
+                   $userID = $row->user_id;
+                   $password = $row->password;
+                   $email = $row->email_id;
+                   $firstname = $row->first_name;
+                   $lastname = $row->last_name;
+                   $profilepic = $row->profile_picture;
+                   $logtype = $row->logintype;
+                   $soicalid = $row->social_id;
+                }           
+                if($userID && $this->check_password($password, $pass)){
+                    $this->updateLoginTime($userID);
+                    $data = array('userid'=>$userID,'firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'pic'=>$profilepic,'logtype'=>$logtype,'socialid'=>$soicalid,'status' => 'success');
+                    return $data;
+                }else{
+                    return '';
+                }
             }
             
         }

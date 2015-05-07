@@ -153,10 +153,12 @@ class Services extends REST_Controller
 
         $data = array('first_name' => $fname, 'last_name' => $lname, 'email_id' => $email, 'mobile_number' => $mobile, 'gender' => $gender, 'password' => $this->create_password($password), 'last_login_time' => date('Y-m-d H:i:s'));
         $insertID = $this->Auth->insertUser($data);
-        if ($insertID) {
+        if ($insertID && $insertID != 0) {
             $message = array('userid' => $insertID,'message' => 'User has added successfully', 'status' => 'success');
             $this->response($message, 200); 
-        } else {
+        }elseif($insertID == 0){
+            $this->response(array('error' => 'Already username has taken'), 200);
+        }else {
             $this->response(array('error' => 'User could not be found'), 404);
         }
     }
