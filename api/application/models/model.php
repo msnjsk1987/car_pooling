@@ -26,6 +26,17 @@ class Model extends CI_Model {
                   $query = $this->db->get('users');
                   return $query->result_array();
     }
+    
+    function getUserCarDetail($userId){
+        $this->db->select('*');
+        $this->db->from('car');
+        $this->db->where('user_id=',$userId);
+        $this->db->join('car_model', 'car_model.model_id = car.car_model_id'); 
+        $this->db->join('car_make', 'car_make.make_id = car_model.make_id');
+        $query = $this->db->get();
+        return $query->result_array();
+          
+    }
 
     function saveFbUserDetails($data){
         $this->db->insert('users', $data);
@@ -36,6 +47,18 @@ class Model extends CI_Model {
          $this->db->where('social_id=',$id);
          $query = $this->db->get('users');
          return $query->result_array();
+    }
+    
+     function getAllCarList(){
+            $this->db->select('car_model.model_id as ModelID,car_model.model_name as ModelName,car_make.make_id as MakeID, car_make.make_name as MakeName');
+            $this->db->from('car_make');          
+            $this->db->join('car_model', 'car_model.make_id = car_make.make_id');  
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+    function set_carData($data){
+        $this->db->insert('car', $data);
+        return $this->db->insert_id();
     }
 
 }

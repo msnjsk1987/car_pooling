@@ -1,6 +1,19 @@
 carApp.factory('getRidesService', function($http) {
     var urlBase = 'http://localhost/car_pooling/api/index.php/services/';
     var dataFactory = {};
+    
+    dataFactory.getUserCarDetails=function(userId){
+          return $http({method:'GET', url:urlBase+'getUserCarDetails', params:{id:userId}});
+    }
+    
+    dataFactory.saveCar=function(data){
+       
+         return $http.post(urlBase+'saveCar',data);
+    }
+    
+    dataFactory.getCarDetails=function(){
+        return $http({method:'GET', url:urlBase+'carAllModels'});
+    }
 
     dataFactory.getUserDetails=function(id,type){
         return $http({method:'GET', url:urlBase+'getUserDetails', params:{id:id,uType:type}});

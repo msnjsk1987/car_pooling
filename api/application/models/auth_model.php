@@ -68,13 +68,7 @@ class Auth_model extends CI_Model {
             return $query->result_array();
         }
         
-        function getAllCarList(){
-            $this->db->select('car_model.model_id as ModelID,car_model.model_name as ModelName,car_make.make_id as MakeID, car_make.make_name as MakeName');
-            $this->db->from('car_make');          
-            $this->db->join('car_model', 'car_model.make_id = car_make.make_id');  
-            $query = $this->db->get();
-            return $query->result_array();
-        }
+       
 
         /*************************  Password Functionality   **************************/
       public static function check_password($hash, $password) {

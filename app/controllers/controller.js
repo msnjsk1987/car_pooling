@@ -23,15 +23,17 @@
         var userId=sessionStorage.uid;
      if(sessionStorage.logType=="native") {
          getRidesService.getUserDetails(userId).success(function (data) {
-             console.log(data);
+             
              $scope.isLoggedIn = false;
              $scope.isLoggedOut = true;
              $scope.profilePic=data[0].profile_picture;
              $scope.welcomeMsg = "Welcome " + data[0].first_name;
              $scope.loginMailId=data[0].email_id;
+              $scope.loader=false;
          });
      }else{
          refresh();
+          $scope.loader=false;
      }
 
    
@@ -65,7 +67,6 @@
     function refresh() {
         $facebook.api("/me").then(
             function(response) {
-
                 $scope.profilePic="http://graph.facebook.com/"+response.id+"/picture?type=large";
                 $scope.welcomeMsg = "Welcome " + response.name;
                 $scope.loginMailId=response.email;
@@ -79,7 +80,6 @@
                 $scope.isLoggedOut = false;
                 $scope.isLoggedIn = true;
                 $scope.loader=false;
-
             });
     }
 
@@ -90,7 +90,6 @@
     
     $scope.openModel = function (size) {
     if(!sessionStorage.length>0) {
-
         var modalInstance = $modal.open({
             templateUrl: 'myModalContent.html',
             controller: 'ModalInstanceCtrl'
@@ -173,8 +172,6 @@ carApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance,$faceboo
                 };
                 
                 $modalInstance.close($scope.logArray);
-
-               
             },
             function(err) {
                $modalInstance.close($scope.loggedStatus=false);
@@ -219,13 +216,13 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
 
 
 
-    $scope.markers = [
+    /*$scope.markers = [
         ['Bondi Beach', 12.9700, 77.7500, 4],
         ['Coogee Beach', 12.9441261, 77.60519840, 5],
         ['Cronulla Beach', -34.028249, 151.157507, 3],
         ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
         ['Maroubra Beach', -33.950198, 151.259302, 1]
-    ];
+    ];*/
 
     $scope.applyFilter=function(){
         $scope.loader=true;
@@ -469,9 +466,84 @@ carApp.controller('offerRidesController',function($scope,getRidesService){
  * gmap height adjustment
  * gmap direction service
  */
-carApp.controller('myAccountController',function($scope,getRidesService){
-    $scope.tabs = [
-    { title:'Dynamic Title 1', content:'Dynamic content 1' },
-    { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
-  ];
+carApp.controller('dashboardController',function($scope,getRidesService){
+    
+    var userId=sessionStorage.uid;
+    var userType=sessionStorage.logType;
+    getRidesService.getUserDetails(userId,userType).success(function (data) {
+         $scope.userDetail=data;
+        if($scope.userDetail[0].mobile_verified==0){
+            $scope.mobile_not_verify=true;
+        }else{
+             $scope.mobile_verify=true;
+        }
+         if($scope.userDetail[0].email_verified==0){
+            $scope.email_not_verify=true;
+        }else{
+            $scope.email_verify=true;
+        }
+    });
+    
+    $scope.saveCar=function(car){
+        car.userID=userId;
+       getRidesService.saveCar(car).success(function (data){
+           console.log(data);
+       });
+    }
+    
+  getRidesService.getUserCarDetails(userId).success(function (data) {
+      $scope.carDetails=data;
+      if($scope.carDetails.length==0){
+          $scope.showAddCar=true;
+      }else{
+          $scope.showCarDetail=true;
+      }
+      
+  });
+   
+    
+    getRidesService.getCarDetails().success(function (data) {
+         var i,j=0,k=0, carmodels =[];
+        for(i=0;i<data.length;i++){
+            j = data[i].MakeID;
+            var newArr=[];
+            if(j!=k){
+                newArr['makeid'] =data[i].MakeID;
+                newArr['makename'] =data[i].MakeName;
+                carmodels.push(newArr);
+            }
+            k = j;
+        }      
+        carmodels.sort(function(a, b){
+            return ((a.makename < b.makename) ? -1 : ((a.makename > b.makename) ? 1 : 0));
+        });
+        $scope.carAllMakes = carmodels;
+        
+  $scope.getMakeData = function(make){
+            
+      var i,j=0, carmodels =[];
+      
+        for(i=0;i<data.length;i++){
+            j = data[i].MakeID;
+            var newArr=[];
+            if(j==make){
+                newArr['modeid'] =data[i].ModelID;
+                newArr['modelname'] =data[i].ModelName;
+                carmodels.push(newArr);
+            }        
+        }      
+        carmodels.sort(function(a, b){
+            return ((a.modelname < b.modelname) ? -1 : ((a.modelname > b.modelname) ? 1 : 0));
+        });
+        $scope.carAllModels =  carmodels;
+       
+    };   
+        
+        
+    });
+    
+     
+    
+    
+    
 });

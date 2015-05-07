@@ -161,6 +161,38 @@ class Services extends REST_Controller
         }
     }
     
+    
+    function carAllModels_get() {
+        $value = $this->Model->getAllCarList();
+        $carAllModel = array();
+        if(!empty($value)){
+            foreach ($value as $allModel){                
+                array_push($carAllModel, $allModel);
+            }
+        }       
+        $this->response($carAllModel, 200); 
+    }
+    
+    function saveCar_post(){
+         $car_data=array(
+                'user_id'=>$this->post('userID'),
+                'car_make_id'=>$this->post('makeModel'),
+                'car_model_id'=>$this->post('model'),
+                'car_comfort'=>$this->post('comfort'),
+                'car_color'=>$this->post('color')
+         );
+         $carDetail=$this->Model->set_carData($car_data);
+         $this->response($carDetail, 200); // 200 being the HTTP response code
+        
+    }
+    
+    function getUserCarDetails_get(){
+        
+        $carDetails = $this->Model->getUserCarDetail($this->get('id'));
+        $this->response($carDetails, 200); // 200 being the HTTP response code
+    }
+    
+    
     function user_delete()
     {
     	//$this->some_model->deletesomething( $this->get('id') );

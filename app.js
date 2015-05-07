@@ -45,9 +45,9 @@ carApp.config(function($routeProvider) {
             templateUrl: 'app/views/ride-details.html',
             controller: 'rideDetailController'
         })
-        .when('/my-account', {
-            templateUrl: 'app/views/my-account.html',
-            controller: 'myAccountController'
+        .when('/dashboard', {
+            templateUrl: 'app/views/dashboard.html',
+            controller: 'dashboardController'
         })
          .when('/offer-rides', {
                 templateUrl: 'app/views/offer-rides.html',

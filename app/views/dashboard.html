@@ -1,0 +1,307 @@
+<div id="wrapper" class="contentWrapper"> 
+    <div class="container">
+<tabset  vertical="true" type="pills">
+     <tab  >
+        <tab-heading>
+        <i  class="fa fa-list-alt"></i><span>Dashboard</span>
+        </tab-heading>
+        <div class="tabContainer" >
+            <div class="col-lg-12">
+				<div class="dash-head">
+					<div class="left">
+						<h4 class="mb5 text-light">Welcome {{userDetail[0].first_name}}</h4>
+						<p class="small"><strong>AngularJS</strong> admin app</p>
+					</div>
+					
+				</div>
+			</div>
+            
+            
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                  <div class="holder-module">
+                      <div class="panel-heading">Profile Verification</div>
+                      <div class="module-content">
+                          <p class="verified" ng-show="mobile_verify">Phone number verified <i class="fa fa-check-circle"></i></p>
+                           <p class="not-verified" ng-show="mobile_not_verify">Phone number verified <a href="">(Verify)</a></p>
+                           <p class="verified" ng-show="email_verify">Email verified <i class="fa fa-check-circle"></i></p>
+                           <p class="not-verified" ng-show="email_not_verify">Email not verified <a href="">(Verify)</a></p>
+                      </div>
+                  </div>
+              </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                 <div class="holder-module">
+                      <div class="panel-heading">member activity</div>
+                     <div class="module-content">
+                     <p>One ride offered</p>
+                      <p>Member since: 04 February 2014</p>
+                    </div>
+                  </div>
+              </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                 <div class="holder-module">
+                     <div class="panel-heading">your car</div>
+                      <div class="module-content" ng-show="showCarDetail">
+                     <div class="car-img"><img src="http://www.skoda-auto.com/SiteCollectionImages/models/new-fabia/fabia/fabia/overview/fabia-overview-6reasons-bottom.jpg" class="img-circle img img-responsive"></div>
+                    <div class="car-info" ng-show="showCarDetail">
+                        <p class="car-name">{{carDetails[0].make_name}} [{{carDetails[0].model_name}} ]</p>  
+                        <p>color: {{carDetails[0].car_color}}</p>
+                        <p>Comfort: {{carDetails[0].car_comfort}}</p>
+                    </div>
+                   
+                     </div>
+                     
+                      <div class="module-content">
+                         <div class="" ng-show="showAddCar" style="line-height: 58px;">
+                             <button ng-click="data.carTabActive = true" class="btn btn-warning" style="width:100%;">Add a car</button>
+                         </div>
+                   
+                     </div>
+                     
+                  </div>
+              </div>
+            
+             <div class="col-md-12">
+				<div class="dash-head">
+					<div class="left">
+						<h4 class="mb5 text-light">Messages</h4>
+                        <table class="messages-table table">
+                          <tr class="unread">
+                                <th class="icons" scope="row">
+                                    <input type="checkbox" class="" id="" ></th>
+                                <td class="from"><div><a href="mail-single.php">Tyrion Lannister</a></div></td>
+                                <td class="subject hidden-xs"><div><a href="mail-single.php">Donec dapibus leo vel turpis cursus ultrices. Curabitur sit amet imperdiet mauris. Donec at aliquet nisi. </a></div></td>
+                                <td class="summary hidden-xs"><div><a href="mail-single.php">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus viverra justo ac dui condimentum, eget bibendum lectus accumsan. Nulla facilisi</a></div></td>
+                                <td class="date-time text-right"><a href="mail-single.php">8:26 am</a></td>
+                           </tr>
+                             <tr class="unread">
+                                <th class="icons" scope="row">
+                                    <input type="checkbox" class="" id="" ></th>
+                                <td class="from"><div><a href="mail-single.php">Tyrion Lannister</a></div></td>
+                                <td class="subject hidden-xs"><div><a href="mail-single.php">Donec dapibus leo vel turpis cursus ultrices. Curabitur sit amet imperdiet mauris. Donec at aliquet nisi. </a></div></td>
+                                <td class="summary hidden-xs"><div><a href="mail-single.php">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus viverra justo ac dui condimentum, eget bibendum lectus accumsan. Nulla facilisi</a></div></td>
+                                <td class="date-time text-right"><a href="mail-single.php">8:26 am</a></td>
+                           </tr>
+                             <tr class="unread">
+                                <th class="icons" scope="row">
+                                    <input type="checkbox" class="" id="" ></th>
+                                <td class="from"><div><a href="mail-single.php">Tyrion Lannister</a></div></td>
+                                <td class="subject hidden-xs"><div><a href="mail-single.php">Donec dapibus leo vel turpis cursus ultrices. Curabitur sit amet imperdiet mauris. Donec at aliquet nisi. </a></div></td>
+                                <td class="summary hidden-xs"><div><a href="mail-single.php">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus viverra justo ac dui condimentum, eget bibendum lectus accumsan. Nulla facilisi</a></div></td>
+                                <td class="date-time text-right"><a href="mail-single.php">8:26 am</a></td>
+                           </tr>
+                        </table>
+						
+					</div>
+					
+				</div>
+			</div>
+        </div>
+    </tab>
+    <tab >
+        <tab-heading>
+        <i  class="fa fa-newspaper-o"></i><span>Profile Details</span>
+        </tab-heading>
+        <div class="tabContainer">
+           
+            
+            <div class="singleTop p20">
+          
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 pb20">
+                     <form class="contactForm">
+                <div class="row">
+                  <div class="agent">
+                        <div class="agent-avatar">
+                            <img src="http://mariusn.com/themes/reales-wp/wp-content/uploads/2014/11/avatar.png" alt="Jane Smith">
+                        </div>
+                        <div class="agent-contact">
+                            <h1 class="pageTitle">Senthilnathan</h1>
+                        </div>
+                      
+                    </div>
+                   
+                </div>
+             </form>
+                                        
+                                        
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-9 pb20">
+                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="ca_subject">First name <span class="text-red">*</span></label>
+                            <input type="text" id="ca_subject" name="ca_subject" placeholder="Enter the subject" class="form-control">
+                        </div>
+                    </div>
+                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="ca_subject">Last name <span class="text-red">*</span></label>
+                            <input type="text" id="ca_subject" name="ca_subject" placeholder="Enter the subject" class="form-control">
+                        </div>
+                    </div>
+                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="ca_subject">Email <span class="text-red">*</span></label>
+                            <input type="text" id="ca_subject" name="ca_subject" placeholder="Enter the subject" class="form-control">
+                        </div>
+                    </div>
+                    
+                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="ca_subject">Mobile number <span class="text-red">*</span></label>
+                            <input type="text" id="ca_subject" name="ca_subject" placeholder="Enter the subject" class="form-control">
+                        </div>
+                    </div>
+                    
+                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="ca_subject">Birth year <span class="text-red">*</span></label>
+                            <input type="text" id="ca_subject" name="ca_subject" placeholder="Enter the subject" class="form-control">
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="ca_message">Biography <span class="text-red">*</span></label>
+                            <textarea id="ca_message" name="ca_message" placeholder="Type your message" rows="3" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <a href="javascript:void(0);" class="btn btn-green" id="sendMessageBtn">Send Message</a>
+                        </div>
+                    </div>
+                    
+                    
+                  
+                </div>
+            </div>
+            
+           
+           
+        </div>
+            
+            
+        </div>
+    </tab>
+    
+    <tab>
+        <tab-heading>
+        <i  class="fa fa-th-list"></i><span>Rides offerd</span>
+        </tab-heading>
+        <div class="tabContainer">
+           <div class="property-row">
+
+    <div class="property-row-content">
+        <h2 class="property-row-title">
+           <span><i class="fa fa-map-marker"></i></span> salem -> Bangalore
+        </h2>
+
+        <div class="property-row-location">
+            <span><i class="fa fa-calendar"></i></span> Friday 28 February 2014 - 16:10 
+        </div>
+ 
+        <div class="property-row-meta">        
+                        
+                <div class="property-row-meta-item">
+                   
+                    <strong>3 Seats</strong>
+                </div>
+                <div class="property-row-meta-item">
+                   
+                    <strong>220 per co-traveller</strong>
+                </div>       
+              
+                    </div>
+
+    </div>
+</div>
+            
+        </div>
+    </tab>
+
+    <tab>
+        <tab-heading>
+        <i  class="fa fa-check-circle-o"></i><span>Verification</span>
+        </tab-heading>
+         <div class="tabContainer">
+            I've got an HTML heading, and a select callback. Pretty cool!
+        </div>
+    </tab>
+    <tab active="data.carTabActive">
+        <tab-heading>
+        <i  class="fa fa-car"></i><span>Car Details</span>
+        </tab-heading>
+        <div class="tabContainer">
+            <div class="tabContainerModule">
+                
+                <div class="panel-heading">Add Car</div>
+          
+            <div class="row" style="padding-top:20px;">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 pb20">
+                    
+                <div class="row">
+                  <div class="agent">
+                        <div class="agent-avatar">
+                            <img src="http://www.skoda-auto.com/SiteCollectionImages/models/new-fabia/fabia/fabia/overview/fabia-overview-6reasons-bottom.jpg" alt="Jane Smith">
+                        </div>
+                    </div>
+                   
+                </div>
+            
+                                        
+                                        
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-9 pb20">
+                    <form novalidate>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="form-group">
+                        <label>Make</label>
+                        <select class="form-control" ng-model="car.makeModel" ng-change="getMakeData(car.makeModel)">
+                          <option ng-repeat="make in carAllMakes" value="{{make.makeid}}">{{make.makename}}</option>
+                        </select>
+                    </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="form-group">
+                        <label>Model</label>
+                        <select class="form-control" ng-model="car.model">
+                         <option ng-repeat="models in carAllModels" value="{{models.modeid}}">{{models.modelname}}</option>
+                        </select>
+                    </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="form-group">
+                        <label>Comfort</label>
+                        <select class="form-control" ng-model="car.comfort">
+                        <option value="Basic">Basic</option><option value="Normal" selected="selected">Normal</option><option value="Comfortable">Comfortable</option><option value="Luxury">Luxury</option>
+                        </select>
+                    </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="form-group">
+                        <label>Color</label>
+                        
+                        <select class="form-control" ng-model="car.color">
+                          <option value="black" selected="selected">black</option><option value="blue">blue</option><option value="dark green">dark green</option><option value="green">green</option><option value="dark blue">dark blue</option><option value="dark grey">dark grey</option><option value="purple">purple</option><option value="brown">brown</option><option value="claret">claret</option><option value="light green">light green</option><option value="light blue">light blue</option><option value="light grey">light grey</option><option value="mauve">mauve</option><option value="red">red</option><option value="pink">pink</option><option value="orange">orange</option><option value="yellow">yellow</option><option value="white">white</option><option value="silver">silver</option><option value="gold">gold</option>
+                        </select>
+                    </div>
+                        
+                        <input type="button" class="btn btn-primary pull-right" ng-click="saveCar(car)" value="Save" />
+                    </div>
+                </form>
+                </div>
+            </div>
+            
+           
+           
+        </div>
+        </div>
+    </tab>
+   
+  </tabset>
+        </div>
+</div>
