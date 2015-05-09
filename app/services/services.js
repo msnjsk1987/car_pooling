@@ -1,6 +1,27 @@
 carApp.factory('getRidesService', function($http) {
     var urlBase = 'http://localhost/car_pooling/api/index.php/services/';
     var dataFactory = {};
+
+    dataFactory.storeMobileData=function(userId,userType,mobile,randomCode){
+
+        var data = {
+            id: userId,
+            userType:userType,
+            mobile:mobile,
+            code:randomCode
+        };
+        return $http.post(urlBase+'storeMobileData',data);
+
+
+    }
+
+    dataFactory.deleteRideDb=function(userId,rideId){
+        return $http({method:'GET', url:urlBase+'deleteRidesByUser', params:{id:userId,rideId:rideId}});
+    }
+
+    dataFactory.getRidesByUser=function(userId){
+        return $http({method:'GET', url:urlBase+'getRidesByUser', params:{id:userId}});
+    }
     
     dataFactory.getUserCarDetails=function(userId){
           return $http({method:'GET', url:urlBase+'getUserCarDetails', params:{id:userId}});
@@ -19,7 +40,7 @@ carApp.factory('getRidesService', function($http) {
         return $http({method:'GET', url:urlBase+'getUserDetails', params:{id:id,uType:type}});
     }
     dataFactory.storeFacebookUser=function(data){
-        console.log(data);
+
         var gender="";
         if(data.logResponse.gender=='male'){
             gender=1

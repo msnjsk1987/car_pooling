@@ -1,7 +1,7 @@
 <div id="wrapper" class="contentWrapper"> 
     <div class="container">
 <tabset  vertical="true" type="pills">
-     <tab  >
+     <tab  active="true" >
         <tab-heading>
         <i  class="fa fa-list-alt"></i><span>Dashboard</span>
         </tab-heading>
@@ -185,38 +185,58 @@
         </div>
     </tab>
     
-    <tab>
+    <tab active="rideOfferTabActive">
         <tab-heading>
         <i  class="fa fa-th-list"></i><span>Rides offerd</span>
         </tab-heading>
         <div class="tabContainer">
-           <div class="property-row">
+            {{ridesOffered.length}}
 
-    <div class="property-row-content">
-        <h2 class="property-row-title">
-           <span><i class="fa fa-map-marker"></i></span> salem -> Bangalore
-        </h2>
+            <div class="alert alert-info" ng-show="noRidesHolder" role="alert">
+                <strong>Ooops !!!!</strong> You don't have any ride to display.
+            </div>
 
-        <div class="property-row-location">
-            <span><i class="fa fa-calendar"></i></span> Friday 28 February 2014 - 16:10 
-        </div>
- 
-        <div class="property-row-meta">        
-                        
-                <div class="property-row-meta-item">
-                   
-                    <strong>3 Seats</strong>
-                </div>
-                <div class="property-row-meta-item">
-                   
-                    <strong>220 per co-traveller</strong>
-                </div>       
-              
+            <div ng-show="ridesDisplay">
+
+           <div class="property-row" ng-repeat="rides in ridesOffered">
+
+                <div class="property-row-content">
+                    <h2 class="property-row-title">
+                       <span><i class="fa fa-map-marker"></i></span> {{rides.departure}} -> {{rides.arrival}}
+                    </h2>
+
+                    <div class="property-row-location">
+                        <span><i class="fa fa-calendar"></i></span> {{rides.departure_date | date}} - {{rides.departure_time | date : "h:mma"}}
                     </div>
 
-    </div>
-</div>
+                    <div class="property-row-meta">
+
+                            <div class="property-row-meta-item">
+
+                                <strong>{{rides.seats}} Seats</strong>
+                            </div>
+                            <div class="property-row-meta-item">
+
+                                <strong>{{rides.price}} per co-traveller</strong>
+                            </div>
+
+                           <div class="options-items pull-right">
+                               <div class="property-row-meta-item">
+
+                                   <strong><a href="" class="edit" > <i class="fa fa-edit"></i> Edit</a></strong>
+                               </div>
+                               <div class="property-row-meta-item">
+
+                                   <strong><a ng-click="deleteRide(rides.id)" class="delete" > <i class="fa fa-close"></i> Delete</a></strong>
+                               </div>
+                           </div>
+
+                    </div>
+
+                </div>
+            </div>
             
+        </div>
         </div>
     </tab>
 

@@ -183,7 +183,7 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   display: table;
   margin-bottom: 30px;
-    margin-left: 15px;
+
   width: 100%;
     .property-row-content {
       display: table-cell;
@@ -224,6 +224,10 @@
         }
     }
 }
+.tabContainer{
+  margin-left: 15px;
+
+}
 .tabContainerModule{
       background-color: #fff;
       border: 1px solid #f7f7f7;
@@ -249,4 +253,12 @@
   font-size: 12px;
   text-transform: capitalize;
 }
+}
+.options-items{
+  .edit{
+    color:#0eaaa6;
+  }
+  .delete{
+    color: #f75d3f;
+  }
 }

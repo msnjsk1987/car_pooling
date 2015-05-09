@@ -58,11 +58,11 @@ class Services extends REST_Controller
         }
 
      function getRides_get(){
-         $data=array(
-             'departure'=>$this->get('origin'),
-             'arrival' => $this->get('destination')
-         );
-         $rides = $this->Model->getRides($data);
+
+             $departure=$this->get('origin');
+             $arrival = $this->get('destination');
+
+         $rides = $this->Model->getRides($departure,$arrival);
          $this->response($rides, 200); // 200 being the HTTP response code
      }
 
@@ -73,7 +73,23 @@ class Services extends REST_Controller
               $rideDetails = $this->Model->getRideDetails($data);
               $this->response($rideDetails, 200); // 200 being the HTTP response code
           }
+      function getRidesByUser_get(){
+                      $data=array(
+                           'userid'=>$this->get('id')
+                       );
+                       $userRideDetails = $this->Model->getUserRide($data);
+                       $this->response($userRideDetails, 200); // 200 being the HTTP response code
+      }
+      function deleteRidesByUser_get(){
+         $userDeleteRide = $this->Model->deleteUserRide($this->get('id'),$this->get('rideId'));
+         $this->response($this->get('rideId'), 200); // 200 being the HTTP response code
+      }
 
+
+      function storeMobileData_post(){
+            $mobileVerifyCode = $this->Model->updateMobileData($this->post('id'),$this->post('userType'),$this->post('mobile'),$this->post('code'));
+            $this->response($mobileVerifyCode, 200); // 200 being the HTTP response code
+      }
 
 
     function facebookUserSignUp_post(){

@@ -9,8 +9,9 @@ class Model extends CI_Model {
        $this->db->insert('rides', $data);
         return $this->db->insert_id();
     }
-    function getRides($data){
-       $this->db->where($data);
+    function getRides($departure,$arrival){
+       $this->db->like('departure', $departure);
+       $this->db->like('arrival', $arrival);
        $query = $this->db->get('rides');
        return $query->result_array();
     }
@@ -20,6 +21,19 @@ class Model extends CI_Model {
            $query = $this->db->get('rides');
            return $query->result_array();
         }
+    function getUserRide($data){
+        $this->db->where($data);
+        $query = $this->db->get('rides');
+        return $query->result_array();
+
+    }
+
+    function deleteUserRide($userId,$rideId){
+             $this->db->where('id',$rideId);
+              $this->db->where('userid',$userId);
+              $query = $this->db->delete('rides');
+              return $userId;
+    }
 
     function getUserDetails($data){
        $this->db->where($data);
@@ -36,6 +50,20 @@ class Model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
           
+    }
+
+    function updateMobileData($uid,$userType,$mobile,$code){
+             $data = array(
+                   'mobile_number' => $mobile,
+                   'mobile_verify_code' => $code,
+                );
+             if($userType=="native"){
+             $this->db->where('user_id',$uid);
+             }else{
+              $this->db->where('social_id',$uid);
+             }
+             $query = $this->db->update('users',$data);
+             return $data;
     }
 
     function saveFbUserDetails($data){

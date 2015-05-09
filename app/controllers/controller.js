@@ -17,10 +17,18 @@
 
     carApp.controller('loginController',function($scope,$facebook,$modal,$location,getRidesService){
     $scope.loader=true;
-
+    $scope.animationsEnabled = true;
     $scope.isLoggedIn = true;
     $scope.isLoggedOut = false;
-        var userId=sessionStorage.uid;
+    var userId=sessionStorage.uid;
+
+
+    $scope.myTripTab=function(){
+        $location.path('/dashboard');
+        $scope.rideOfferTabActive = true;
+    }
+
+
      if(sessionStorage.logType=="native") {
          getRidesService.getUserDetails(userId).success(function (data) {
              
@@ -261,6 +269,8 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
     var searchQuery=($routeParams.query).split('to');
     var fromParam=searchQuery[0];
     var toParam=searchQuery[1];
+    var splitOrigin=fromParam.split(',')[0];
+    var splitDestination=toParam.split(',')[0];
     $scope.originPlace=fromParam;
     $scope.destinationPlace=toParam;
     $scope.loader=true;
@@ -269,7 +279,7 @@ carApp.controller('searchResultController', function($scope,$location,getRidesSe
 
 
 
-    getRidesService.getRides(fromParam,toParam).success(function(data){
+    getRidesService.getRides(splitOrigin,splitDestination).success(function(data){
         $scope.cards=data;
         var priceArray=[];
         for(var i=0; i<data.length;i++){
@@ -443,7 +453,7 @@ carApp.controller('contactDriverModalInstanceCtrl', function ($scope, $modalInst
  * gmap height adjustment
  * gmap direction service
  */
-carApp.controller('offerRidesController',function($scope,getRidesService){
+carApp.controller('offerRidesController',function($scope,getRidesService,$modal){
    
     windowResizeHandler();
     var directionsService = new google.maps.DirectionsService();
@@ -470,29 +480,100 @@ carApp.controller('offerRidesController',function($scope,getRidesService){
     $scope.ismeridian = true;
 
 
+
+
     /*** save offer function ***/
     $scope.publishOffer=function($dataItms){
         var uid=sessionStorage.uid;
+        var userType=sessionStorage.logType;
         var data=$dataItms;
         data.userid=uid;
         data.userType=sessionStorage.logType;
 
-            getRidesService.postOffers(data).success(function(data){
-                    console.log(data);
-            });
+        getRidesService.getUserDetails(data.userid,data.userType).success(function (data) {
+               if(data[0].mobile_verified==0){
+
+                   var modalInstance = $modal.open({
+                       animation: $scope.animationsEnabled,
+                       templateUrl: 'mobileVerifyModal.html',
+                       controller: 'mobileVerifyModalInstanceCtrl'
+                   });
+
+                   modalInstance.result.then(function (number) {
+                       var randomNumber=Math.floor(Math.random()*9000) + 1000;
+
+                       getRidesService.storeMobileData(uid,userType,number,randomNumber).success(function (data) {
+                                    console.log(data);
+                       });
+
+
+
+                       var modalInstance2 = $modal.open({
+                           animation: $scope.animationsEnabled,
+                           templateUrl: 'mobileNumberConfirmContent.html',
+                           controller: 'mobileConfirmModalInstanceCtrl',
+                           resolve: {
+                               mobileNumber: function () {
+                                   return number;
+                               }
+                           }
+                       });
+
+                   }, function () {
+                       $log.info('Modal dismissed at: ' + new Date());
+                   });
+
+               }else{
+                   getRidesService.postOffers(data).success(function(data){
+                       var modalInstance = $modal.open({
+                           animation: $scope.animationsEnabled,
+                           templateUrl: 'publishofferSuccessContent.html',
+                           backdrop: 'static', /*  this prevent user interaction with the background  */
+                           keyboard: false,
+                           controller: 'publishOfferModalInstanceCtrl',
+                           resolve: {
+                               rideId: function () {
+                                   return data;
+                               }
+                           }
+                       });
+                   });
+               }
+        });
+
+
 
     }
 });
+
+    carApp.controller('publishOfferModalInstanceCtrl', function ($scope, $modalInstance, rideId  , $location) {
+        $scope.viewRideOffer = function () {
+            $modalInstance.close();
+            $location.path('/ride-detail/'+rideId);
+        };
+    });
+
+    carApp.controller('mobileConfirmModalInstanceCtrl', function ($scope, $modalInstance, mobileNumber, $location) {
+
+        $scope.mobileNumber=mobileNumber
+    });
+
+    carApp.controller('mobileVerifyModalInstanceCtrl', function ($scope, $modalInstance , $location) {
+
+        $scope.verifyMobileNumber=function(){
+            $modalInstance.close($scope.mobileNumber);
+
+        }
+
+    });
 
 
 /**Offer rides page controller
  * gmap height adjustment
  * gmap direction service
  */
-carApp.controller('dashboardController',function($scope,getRidesService){
-    
-    
-    
+carApp.controller('dashboardController',function($scope,getRidesService,$modal){
+
     var userId=sessionStorage.uid;
     var userType=sessionStorage.logType;
     getRidesService.getUserDetails(userId,userType).success(function (data) {
@@ -523,24 +604,29 @@ carApp.controller('dashboardController',function($scope,getRidesService){
     
   getRidesService.getUserCarDetails(userId).success(function (data) {
       $scope.carDetails=data;
- 
-      
-      
       if($scope.carDetails.length==0){
           $scope.showAddCar=true;
-         
-          
       }else{
           $scope.showCarDetail=true;
       }
       
   });
-    
-  
-   
-    
- 
-   
+
+
+
+  getRidesService.getRidesByUser(userId).success(function (data) {
+      $scope.ridesOffered=data;
+      if($scope.ridesOffered.length==0){
+          $scope.noRidesHolder=true;
+      }else{
+          $scope.ridesDisplay=true;
+      }
+  });
+
+
+    /**
+     * get car detail make and model
+     */
     
     getRidesService.getCarDetails().success(function (data) {
          var i,j=0,k=0, carmodels =[];
@@ -578,18 +664,75 @@ carApp.controller('dashboardController',function($scope,getRidesService){
         carmodels.sort(function(a, b){
             return ((a.modelname < b.modelname) ? -1 : ((a.modelname > b.modelname) ? 1 : 0));
         });
-      
-     
-      
         $scope.carAllModels =  carmodels;
        
     };   
         
         
     });
-    
-     
-    
-    
-    
+
+
+    /**
+     * Dashboard delete ride controller
+     */
+    $scope.ridesDisplay=true;
+  $scope.deleteRide=function(id){
+      $scope.animationsEnabled=true;
+      var rideId=id;
+          var modalInstance = $modal.open({
+              animation: $scope.animationsEnabled,
+              templateUrl: 'confirmationModal.html',
+              controller: 'ModalInstanceDelete',
+
+              resolve: {
+                  items: function () {
+                      return rideId;
+                  }
+              }
+          });
+
+      modalInstance.result.then(function (status) {
+         if(status){
+             var index = -1;
+             var comArr = eval( $scope.ridesOffered );
+             for( var i = 0; i < comArr.length; i++ ) {
+                 if( comArr[i].id === id ) {
+                     index = i;
+                     break;
+                 }
+             }
+             if( index === -1 ) {
+                 alert( "Something gone wrong" );
+             }
+             $scope.ridesOffered.splice( index, 1 );
+             if($scope.ridesOffered.length==0){
+                 $scope.noRidesHolder=true;
+             }else{
+                 $scope.ridesDisplay=true;
+             }
+
+             getRidesService.deleteRideDb(userId,id).success(function (data) {
+                 console.log(data);
+             });
+
+
+
+         }
+      }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+      });
+  }
+
+
 });
+
+
+    /**
+     * Dashboard ride delete popup modal instance controller
+     */
+    carApp.controller('ModalInstanceDelete', function ($scope, $modalInstance, items) {
+        $scope.delete=function(){
+            $modalInstance.close(true);
+        }
+
+    });

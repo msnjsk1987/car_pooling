@@ -65,7 +65,7 @@
                               <li class="pull-right" style="text-align:center;">
                                   <div class="btn-group" role="group">
                                        <a href="#/dashboard"  class="btn btn-success">Dashboard</a>
-                                      <button type="button" class="btn btn-success">My trips</button>
+                                      <button type="button" ng-click="myTripTab()" class="btn btn-success">My trips</button>
                                       <button type="button" ng-click="logout()" class="btn btn-success">Logout</button>
                                     </div>
                                   
@@ -156,6 +156,331 @@
 
 
 
+        <script type="text/ng-template" id="confirmationModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete your ride offer</h3>
+            </div>
+            <div class="modal-body">
+               <p>Are you sure that you want to delete this ride offer?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="delete()">Delete</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+
+        <script type="text/ng-template" id="publishofferSuccessContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Success</h3>
+            </div>
+            <div class="modal-body">
+                <p class="offerPublishSuccess"><i class="fa fa-check-circle-o"></i> Your offer has been published</p>
+                <p>You will receive confirmation mail as well (depending on your notification setting)</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="viewRideOffer()">View your ride offer</button>
+
+            </div>
+        </script>
+
+
+        <script type="text/ng-template" id="mobileNumberConfirmContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Verify number to get in touch with other memeber</h3>
+            </div>
+            <div class="modal-body">
+                <p>An SMS has been sent to {{mobileNumber}}</p>
+                <div class="form-group">
+                    <label for="confirmCode">Please enter the 4 digit number you recived by SMS</label>
+                    <input type="number" style="width:20%;margin:0 auto;" ng-model="code.confirmCode" class="form-control" id="confirmCode" placeholder="">
+                </div>
+                <button class="btn btn-primary" ng-click="confirmMobile(code)">Confirm</button>
+            </div>
+            <div class="modal-footer">
+                    <p>Haven't your SMS?Don't worry it might take 15 minute depending on your provider. </p>
+
+            </div>
+        </script>
+
+
+
+
+
+        <script type="text/ng-template" id="mobileVerifyModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Verify your mobile to publish your offer.</h3>
+            </div>
+            <div class="modal-body">
+            <form class="">
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                    <div class="form-group">
+                    <select class="form-control">
+                    <option value="+93" data-example="070 XXX XXXX" title="AF">Afghanistan</option>
+                    <option value="+358" data-example="04X XXXXXXX" title="AX">Åland Islands</option>
+                    <option value="+355" data-example="066 XXX XXXX" title="AL">Albania</option>
+                    <option value="+213" data-example="055X XX XX XX" title="DZ">Algeria</option>
+                    <option value="+1" data-example="1 (684) 733-XXXX" title="AS">American Samoa</option>
+                    <option value="+599" data-example="" title="AN">AN</option>
+                    <option value="+376" data-example="3XX XXX" title="AD">Andorra</option>
+                    <option value="+244" data-example="923 XXX XXX" title="AO">Angola</option>
+                    <option value="+1" data-example="1 (264) 235-XXXX" title="AI">Anguilla</option>
+                    <option value="+1" data-example="1 (268) 464-XXXX" title="AG">Antigua &amp; Barbuda</option>
+                    <option value="+54" data-example="011 15-2345-6789" title="AR">Argentina</option>
+                    <option value="+374" data-example="077 XXXXXX" title="AM">Armenia</option>
+                    <option value="+297" data-example="560 XXXX" title="AW">Aruba</option>
+                    <option value="+247" data-example="50XXXX" title="AC">Ascension Island</option>
+                    <option value="+61" data-example="04XX XXX XXX" title="AU">Australia</option>
+                    <option value="+43" data-example="0644 XXXXXX" title="AT">Austria</option>
+                    <option value="+994" data-example="040 XXX XX XX" title="AZ">Azerbaijan</option>
+                    <option value="+1" data-example="1 (242) 359-XXXX" title="BS">Bahamas</option>
+                    <option value="+973" data-example="3600 XXXX" title="BH">Bahrain</option>
+                    <option value="+880" data-example="018XX-XXXXXX" title="BD">Bangladesh</option>
+                    <option value="+1" data-example="1 (246) 250-XXXX" title="BB">Barbados</option>
+                    <option value="+375" data-example="8 029 491 191X" title="BY">Belarus</option>
+                    <option value="+32" data-example="0470 XX XX XX" title="BE">Belgium</option>
+                    <option value="+501" data-example="622-XXXX" title="BZ">Belize</option>
+                    <option value="+229" data-example="90 01 XX XX" title="BJ">Benin</option>
+                    <option value="+1" data-example="1 (441) 370-XXXX" title="BM">Bermuda</option>
+                    <option value="+975" data-example="17 XX XX XX" title="BT">Bhutan</option>
+                    <option value="+591" data-example="7XXXXXXX" title="BO">Bolivia</option>
+                    <option value="+387" data-example="061 XXX XXX" title="BA">Bosnia &amp; Herzegovina</option>
+                    <option value="+267" data-example="71 XXX XXX" title="BW">Botswana</option>
+                    <option value="+55" data-example="(11) 6XXX-XXXX" title="BR">Brazil</option>
+                    <option value="+246" data-example="380 XXXX" title="IO">British Indian Ocean Territory</option>
+                    <option value="+1" data-example="1 (284) 300-XXXX" title="VG">British Virgin Islands</option>
+                    <option value="+673" data-example="7XX XXXX" title="BN">Brunei</option>
+                    <option value="+359" data-example="048 XXX XXX" title="BG">Bulgaria</option>
+                    <option value="+226" data-example="70 XX XX XX" title="BF">Burkina Faso</option>
+                    <option value="+257" data-example="79 56 XX XX" title="BI">Burundi</option>
+                    <option value="+855" data-example="09X XXX XXX" title="KH">Cambodia</option>
+                    <option value="+237" data-example="6 7X XX XX XX" title="CM">Cameroon</option>
+                    <option value="+1" data-example="1 (204) 234-5678" title="CA">Canada</option>
+                    <option value="+238" data-example="991 XX XX" title="CV">Cape Verde</option>
+                    <option value="+599" data-example="318 XXXX" title="BQ">Caribbean Netherlands</option>
+                    <option value="+1" data-example="1 (345) 323-XXXX" title="KY">Cayman Islands</option>
+                    <option value="+236" data-example="70 0X XX XX" title="CF">Central African Republic</option>
+                    <option value="+235" data-example="63 0X XX XX" title="TD">Chad</option>
+                    <option value="+56" data-example="09 6XXX XXXX" title="CL">Chile</option>
+                    <option value="+86" data-example="13X XXXX XXXX" title="CN">China</option>
+                    <option value="+61" data-example="04XX XXX XXX" title="CX">Christmas Island</option>
+                    <option value="+61" data-example="04XX XXX XXX" title="CC">Cocos (Keeling) Islands</option>
+                    <option value="+57" data-example="321 XXXXXXX" title="CO">Colombia</option>
+                    <option value="+269" data-example="32X XX XX" title="KM">Comoros</option>
+                    <option value="+242" data-example="06 XXX XXXX" title="CG">Congo - Brazzaville</option>
+                    <option value="+243" data-example="099X XXX XXX" title="CD">Congo - Kinshasa</option>
+                    <option value="+682" data-example="7X XXX" title="CK">Cook Islands</option>
+                    <option value="+506" data-example="83XX XXXX" title="CR">Costa Rica</option>
+                    <option value="+225" data-example="0X XX XX XX" title="CI">Côte d’Ivoire</option>
+                    <option value="+385" data-example="09X XXX XXXX" title="HR">Croatia</option>
+                    <option value="+53" data-example="05 XXXXXXX" title="CU">Cuba</option>
+                    <option value="+599" data-example="9 518 XXXX" title="CW">Curaçao</option>
+                    <option value="+357" data-example="96 XXXXXX" title="CY">Cyprus</option>
+                    <option value="+420" data-example="601 XXX XXX" title="CZ">Czech Republic</option>
+                    <option value="+45" data-example="20 XX XX XX" title="DK">Denmark</option>
+                    <option value="+253" data-example="77 83 10 0X" title="DJ">Djibouti</option>
+                    <option value="+1" data-example="1 (767) 225-XXXX" title="DM">Dominica</option>
+                    <option value="+1" data-example="1 (809) 234-5678" title="DO">Dominican Republic</option>
+                    <option value="+593" data-example="099 XXX XXXX" title="EC">Ecuador</option>
+                    <option value="+20" data-example="0100 XXX XXXX" title="EG">Egypt</option>
+                    <option value="+503" data-example="70XX XXXX" title="SV">El Salvador</option>
+                    <option value="+240" data-example="222 XXX XXX" title="GQ">Etitleuatorial Guinea</option>
+                    <option value="+291" data-example="07 XXX XXX" title="ER">Eritrea</option>
+                    <option value="+372" data-example="5XXX XXXX" title="EE">Estonia</option>
+                    <option value="+251" data-example="091 XXX XXXX" title="ET">Ethiopia</option>
+                    <option value="+500" data-example="5XXXX" title="FK">Falkland Islands</option>
+                    <option value="+298" data-example="21XXXX" title="FO">Faroe Islands</option>
+                    <option value="+679" data-example="70X XXXX" title="FJ">Fiji</option>
+                    <option value="+358" data-example="04X XXXXXXX" title="FI">Finland</option>
+                    <option value="+33" data-example="06 XX XX XX XX" title="FR">France</option>
+                    <option value="+594" data-example="0694 20 XX XX" title="GF">French Guiana</option>
+                    <option value="+689" data-example="2X XX XX" title="PF">French Polynesia</option>
+                    <option value="+241" data-example="06 03 XX XX" title="GA">Gabon</option>
+                    <option value="+220" data-example="30X XXXX" title="GM">Gambia</option>
+                    <option value="+995" data-example="555 XX XX XX" title="GE">Georgia</option>
+                    <option value="+49" data-example="015X XXXXXXXX" title="DE">Germany</option>
+                    <option value="+233" data-example="023 XXX XXXX" title="GH">Ghana</option>
+                    <option value="+350" data-example="57XXXXXX" title="GI">Gibraltar</option>
+                    <option value="+30" data-example="69X XXX XXXX" title="GR">Greece</option>
+                    <option value="+299" data-example="22 XX XX" title="GL">Greenland</option>
+                    <option value="+1" data-example="1 (473) 403-XXXX" title="GD">Grenada</option>
+                    <option value="+590" data-example="0690 30-XXXX" title="GP">Guadeloupe</option>
+                    <option value="+1" data-example="1 (671) 300-XXXX" title="GU">Guam</option>
+                    <option value="+502" data-example="5XXX XXXX" title="GT">Guatemala</option>
+                    <option value="+44" data-example="07781 XXXXXX" title="GG">Guernsey</option>
+                    <option value="+224" data-example="601 XX XX XX" title="GN">Guinea</option>
+                    <option value="+245" data-example="50X XXXX" title="GW">Guinea-Bissau</option>
+                    <option value="+592" data-example="609 XXXX" title="GY">Guyana</option>
+                    <option value="+509" data-example="34 10 XXXX" title="HT">Haiti</option>
+                    <option value="+504" data-example="9XXX-XXXX" title="HN">Honduras</option>
+                    <option value="+852" data-example="5XXX XXXX" title="HK">Hong Kong SAR China</option>
+                    <option value="+36" data-example="(20) XXX XXXX" title="HU">Hungary</option>
+                    <option value="+354" data-example="610 XXXX" title="IS">Iceland</option>
+                    <option value="+91" data-example="09XXXX XXXXX" title="IN" selected="selected">India</option>
+                    <option value="+62" data-example="08XX-XXX-XXX" title="ID">Indonesia</option>
+                    <option value="+98" data-example="09XX XXX XXXX" title="IR">Iran</option>
+                    <option value="+964" data-example="079X XXX XXXX" title="IQ">Iratitle</option>
+                    <option value="+353" data-example="085 0XX XXXX" title="IE">Ireland</option>
+                    <option value="+44" data-example="07924 XXXXXX" title="IM">Isle of Man</option>
+                    <option value="+972" data-example="050-XXX-XXXX" title="IL">Israel</option>
+                    <option value="+39" data-example="3XX XXX XXXX" title="IT">Italy</option>
+                    <option value="+1" data-example="1 (876) 210-XXXX" title="JM">Jamaica</option>
+                    <option value="+81" data-example="070-XXXX-XXXX" title="JP">Japan</option>
+                    <option value="+44" data-example="07797 XXXXXX" title="JE">Jersey</option>
+                    <option value="+962" data-example="07 90XX XXXX" title="JO">Jordan</option>
+                    <option value="+7" data-example="8 (771) 000 9998" title="KZ">Kazakhstan</option>
+                    <option value="+254" data-example="0712 XXXXXX" title="KE">Kenya</option>
+                    <option value="+686" data-example="720XXXXX" title="KI">Kiribati</option>
+                    <option value="+965" data-example="500 XXXXX" title="KW">Kuwait</option>
+                    <option value="+996" data-example="0700 XXX XXX" title="KG">Kyrgyzstan</option>
+                    <option value="+856" data-example="020 23 XXX XXX" title="LA">Laos</option>
+                    <option value="+371" data-example="2X XXX XXX" title="LV">Latvia</option>
+                    <option value="+961" data-example="71 XXX XXX" title="LB">Lebanon</option>
+                    <option value="+266" data-example="50XX XXXX" title="LS">Lesotho</option>
+                    <option value="+231" data-example="0770 XXX XXX" title="LR">Liberia</option>
+                    <option value="+218" data-example="09X-XXXXXXX" title="LY">Libya</option>
+                    <option value="+423" data-example="66X XXX XXX" title="LI">Liechtenstein</option>
+                    <option value="+370" data-example="(8-6XX) XXXXX" title="LT">Lithuania</option>
+                    <option value="+352" data-example="628 XXX XXX" title="LU">Luxembourg</option>
+                    <option value="+853" data-example="66XX XXXX" title="MO">Macau SAR China</option>
+                    <option value="+389" data-example="072 345 678" title="MK">Macedonia</option>
+                    <option value="+261" data-example="032 XX XXX XX" title="MG">Madagascar</option>
+                    <option value="+265" data-example="099X XX XX XX" title="MW">Malawi</option>
+                    <option value="+60" data-example="0XX-XXX XXXX" title="MY">Malaysia</option>
+                    <option value="+960" data-example="77X-XXXX" title="MV">Maldives</option>
+                    <option value="+223" data-example="65 0X XX XX" title="ML">Mali</option>
+                    <option value="+356" data-example="9696 XXXX" title="MT">Malta</option>
+                    <option value="+692" data-example="235-XXXX" title="MH">Marshall Islands</option>
+                    <option value="+596" data-example="0696 20 XX XX" title="MQ">Martinititleue</option>
+                    <option value="+222" data-example="22 XX XX XX" title="MR">Mauritania</option>
+                    <option value="+230" data-example="25X XXXX" title="MU">Mauritius</option>
+                    <option value="+262" data-example="0639 XX XX XX" title="YT">Mayotte</option>
+                    <option value="+52" data-example="044 222 XXX XXXX" title="MX">Mexico</option>
+                    <option value="+691" data-example="350 XXXX" title="FM">Micronesia</option>
+                    <option value="+373" data-example="0650 XX XXX" title="MD">Moldova</option>
+                    <option value="+377" data-example="06 XX XX XX XX" title="MC">Monaco</option>
+                    <option value="+976" data-example="88XX XXXX" title="MN">Mongolia</option>
+                    <option value="+382" data-example="067 622 90X" title="ME">Montenegro</option>
+                    <option value="+1" data-example="1 (664) 492-3456" title="MS">Montserrat</option>
+                    <option value="+212" data-example="0650-XXXXXX" title="MA">Morocco</option>
+                    <option value="+258" data-example="82 XXX XXXX" title="MZ">Mozambititleue</option>
+                    <option value="+95" data-example="09 2XX XXXX" title="MM">Myanmar (Burma)</option>
+                    <option value="+264" data-example="081 XXX XXXX" title="NA">Namibia</option>
+                    <option value="+674" data-example="555 XXXX" title="NR">Nauru</option>
+                    <option value="+977" data-example="0984-XXXXXXX" title="NP">Nepal</option>
+                    <option value="+31" data-example="06 XXXXXXXX" title="NL">Netherlands</option>
+                    <option value="+687" data-example="75.XX.XX" title="NC">New Caledonia</option>
+                    <option value="+64" data-example="021 XXX XXXX" title="NZ">New Zealand</option>
+                    <option value="+505" data-example="8XXX XXXX" title="NI">Nicaragua</option>
+                    <option value="+227" data-example="93 XX XX XX" title="NE">Niger</option>
+                    <option value="+234" data-example="0802 XXX XXXX" title="NG">Nigeria</option>
+                    <option value="+683" data-example="XXXX" title="NU">Niue</option>
+                    <option value="+672" data-example="3 8XXXX" title="NF">Norfolk Island</option>
+                    <option value="+850" data-example="0192 XXX XXXX" title="KP">North Korea</option>
+                    <option value="+1" data-example="1 (670) 234-5678" title="MP">Northern Mariana Islands</option>
+                    <option value="+47" data-example="4XX XX XXX" title="NO">Norway</option>
+                    <option value="+968" data-example="92XX XXXX" title="OM">Oman</option>
+                    <option value="+92" data-example="030X XXXXXXX" title="PK">Pakistan</option>
+                    <option value="+680" data-example="620 XXXX" title="PW">Palau</option>
+                    <option value="+970" data-example="0599 XXX XXX" title="PS">Palestinian Territories</option>
+                    <option value="+507" data-example="600X-XXXX" title="PA">Panama</option>
+                    <option value="+675" data-example="68X XXXX" title="PG">Papua New Guinea</option>
+                    <option value="+595" data-example="0961 456789" title="PY">Paraguay</option>
+                    <option value="+51" data-example="9XX XXX XXX" title="PE">Peru</option>
+                    <option value="+63" data-example="0905 XXX XXXX" title="PH">Philippines</option>
+                    <option value="+48" data-example="5XX XXX XXX" title="PL">Poland</option>
+                    <option value="+351" data-example="9XX XXX XXX" title="PT">Portugal</option>
+                    <option value="+1" data-example="1 (787) 234-5678" title="PR">Puerto Rico</option>
+                    <option value="+974" data-example="33XX XXXX" title="QA">Qatar</option>
+                    <option value="+262" data-example="0692 XX XX XX" title="RE">Réunion</option>
+                    <option value="+40" data-example="07X XXX XXXX" title="RO">Romania</option>
+                    <option value="+7" data-example="8 (9XX) XXX-XX-XX" title="RU">Russia</option>
+                    <option value="+250" data-example="0720 XXX XXX" title="RW">Rwanda</option>
+                    <option value="+685" data-example="60XXXX" title="WS">Samoa</option>
+                    <option value="+378" data-example="66 66 12 XX" title="SM">San Marino</option>
+                    <option value="+239" data-example="98X XXXX" title="ST">São Tomé &amp; Príncipe</option>
+                    <option value="+966" data-example="05X XXX XXXX" title="SA">Saudi Arabia</option>
+                    <option value="+221" data-example="70 XXX XX XX" title="SN">Senegal</option>
+                    <option value="+381" data-example="060 XXXXXXX" title="RS">Serbia</option>
+                    <option value="+248" data-example="2 510 XXX" title="SC">Seychelles</option>
+                    <option value="+232" data-example="(025) XXXXXX" title="SL">Sierra Leone</option>
+                    <option value="+65" data-example="8XXX XXXX" title="SG">Singapore</option>
+                    <option value="+1" data-example="1 (721) 520-5678" title="SX">Sint Maarten</option>
+                    <option value="+421" data-example="0912 XXX XXX" title="SK">Slovakia</option>
+                    <option value="+386" data-example="03X XXX XXX" title="SI">Slovenia</option>
+                    <option value="+677" data-example="74 2XXXX" title="SB">Solomon Islands</option>
+                    <option value="+252" data-example="7 1XXXXXX" title="SO">Somalia</option>
+                    <option value="+27" data-example="071 XXX XXXX" title="ZA">South Africa</option>
+                    <option value="+82" data-example="010-2345-6789" title="KR">South Korea</option>
+                    <option value="+211" data-example="0977 XXX XXX" title="SS">South Sudan</option>
+                    <option value="+34" data-example="6XX XX XX XX" title="ES">Spain</option>
+                    <option value="+94" data-example="07X XXX XXXX" title="LK">Sri Lanka</option>
+                    <option value="+590" data-example="0690 30-XXXX" title="BL">St. Barthélemy</option>
+                    <option value="+290" data-example="" title="SH">St. Helena</option>
+                    <option value="+1" data-example="1 (869) 765-2917" title="KN">St. Kitts &amp; Nevis</option>
+                    <option value="+1" data-example="1 (758) 284-5678" title="LC">St. Lucia</option>
+                    <option value="+590" data-example="0690 30-XXXX" title="MF">St. Martin</option>
+                    <option value="+508" data-example="055 XX XX" title="PM">St. Pierre &amp; Mititleuelon</option>
+                    <option value="+1" data-example="1 (784) 430-XXXX" title="VC">St. Vincent &amp; Grenadines</option>
+                    <option value="+249" data-example="091 123 XXXX" title="SD">Sudan</option>
+                    <option value="+597" data-example="74X-XXXX" title="SR">Suriname</option>
+                    <option value="+47" data-example="4XX XX XXX" title="SJ">Svalbard &amp; Jan Mayen</option>
+                    <option value="+268" data-example="76XX XXXX" title="SZ">Swaziland</option>
+                    <option value="+46" data-example="070-XXX XX XX" title="SE">Sweden</option>
+                    <option value="+41" data-example="074 XXX XX XX" title="CH">Switzerland</option>
+                    <option value="+963" data-example="0944 567 890" title="SY">Syria</option>
+                    <option value="+886" data-example="09XX XXX XXX" title="TW">Taiwan</option>
+                    <option value="+992" data-example="(8) 917 XX XXXX" title="TJ">Tajikistan</option>
+                    <option value="+255" data-example="06XX XXX XXX" title="TZ">Tanzania</option>
+                    <option value="+66" data-example="08X XXX XXXX" title="TH">Thailand</option>
+                    <option value="+670" data-example="772X XXXX" title="TL">Timor-Leste</option>
+                    <option value="+228" data-example="90 1X XX XX" title="TG">Togo</option>
+                    <option value="+690" data-example="5190" title="TK">Tokelau</option>
+                    <option value="+676" data-example="771 5XXX" title="TO">Tonga</option>
+                    <option value="+1" data-example="1 (868) 291-XXXX" title="TT">Trinidad &amp; Tobago</option>
+                    <option value="+216" data-example="20 XXX XXX" title="TN">Tunisia</option>
+                    <option value="+90" data-example="050X XXX XXXX" title="TR">Turkey</option>
+                    <option value="+993" data-example="8 66 XXXXXX" title="TM">Turkmenistan</option>
+                    <option value="+1" data-example="1 (649) 231-XXXX" title="TC">Turks &amp; Caicos Islands</option>
+                    <option value="+688" data-example="90XXXX" title="TV">Tuvalu</option>
+                    <option value="+1" data-example="1 (340) 642-XXXX" title="VI">U.S. Virgin Islands</option>
+                    <option value="+256" data-example="07XX XXXXXX" title="UG">Uganda</option>
+                    <option value="+380" data-example="039 XXX XXXX" title="UA">Ukraine</option>
+                    <option value="+971" data-example="050 XXX XXXX" title="AE">United Arab Emirates</option>
+                    <option value="+44" data-example="07400 XXXXXX" title="GB">United Kingdom</option>
+                    <option value="+1" data-example="1 (20X) XXX-XXXX" title="US">United States</option>
+                    <option value="+598" data-example="094 23X XXX" title="UY">Uruguay</option>
+                    <option value="+998" data-example="8 9X XXX XX XX" title="UZ">Uzbekistan</option>
+                    <option value="+678" data-example="59X XXXX" title="VU">Vanuatu</option>
+                    <option value="+379" data-example="" title="VA">Vatican City</option>
+                    <option value="+58" data-example="0412-XXXXXXX" title="VE">Venezuela</option>
+                    <option value="+84" data-example="09X XXX XX XX" title="VN">Vietnam</option>
+                    <option value="+681" data-example="50 XX XX" title="WF">Wallis &amp; Futuna</option>
+                    <option value="+967" data-example="07XX XXX XXX" title="YE">Yemen</option>
+                    <option value="+260" data-example="095 5XXXXXX" title="ZM">Zambia</option>
+                    <option value="+263" data-example="071 XXX XXXX" title="ZW">Zimbabwe</option>
+                    </select>
+                    </div>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <div class="form-group">
+                            <input type="number" ng-model="mobileNumber" class="form-control" id="" placeholder="">
+                        </div>
+                    </div>
+
+
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="verifyMobileNumber()">Verify your mobile number</button>
+
+            </div>
+        </script>
+
+
+
 
 
     <script type="text/ng-template" id="signUp.html">
@@ -239,3 +564,8 @@
     </body>
 
 </html>
+
+
+
+
+
