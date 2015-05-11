@@ -515,7 +515,7 @@
                     </div>
                     <div class="form-group" >
                         <label for="gender">Gender</label>
-                        <select required ng-model="signUp.gender" id="gender" name="gender" class="form-control"><option value="1" selected="selected">Male</option><option value="2">Female</option></select>
+                        <select required ng-model="signUp.gender" id="gender" name="gender" class="form-control" ng-init="signUp.gender=1"><option value="1">Male</option><option value="2">Female</option></select>
                     </div>
                     <button type="submit" class="btn btn-primary pull-right" ng-click="signUpNative(signUp)" >Sign Up</button>                
                     </form> 
