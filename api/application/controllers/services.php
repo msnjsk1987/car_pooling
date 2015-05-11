@@ -142,6 +142,13 @@ class Services extends REST_Controller
      }
 
 
+     function confirmCode_get(){
+
+                  $confirmCode = $this->Model->confirmMobileCode($this->get('id'),$this->get('mobile'),$this->get('code'),$this->get('userType'));
+                  $this->response($confirmCode, 200); // 200 being the HTTP response code
+     }
+
+
     
     function user_get() {
         $email = $this->get('username');
@@ -157,6 +164,28 @@ class Services extends REST_Controller
             $this->response(array('error' => 'User could not be found'), 404);
         }
     }
+
+    function sendMessage_post(){
+       $message_data=array(
+                       'sender_id'=>$this->post('sender'),
+                       'reciver_id'=>$this->post('reciver'),
+                       'message'=>$this->post('message'),
+                       'status'=>1
+                );
+        $message=$this->Model->sendMessage($message_data);
+        $this->response($message, 200); // 200 being the HTTP response code
+    }
+
+    function getMessageDetail_get(){
+             $messageDetails = $this->Model->getMessageDetails($this->get('id'),$this->get('userType'));
+             $this->response($messageDetails, 200); // 200 being the HTTP response code
+    }
+
+    function getMessageCount_get(){
+              $messageCount = $this->Model->getMessageCount($this->get('id'),$this->get('userType'));
+                 $this->response($messageCount, 200); // 200 being the HTTP response code
+    }
+
     
     function userSignUp_post()
     {

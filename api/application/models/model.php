@@ -5,6 +5,42 @@ class Model extends CI_Model {
     {
         parent::__construct();
     }
+
+    function sendMessage($data){
+     $this->db->insert('message', $data);
+     return $this->db->insert_id();
+    }
+
+    function getMessageDetails($uid,$userType){
+
+        $this->db->select('users.first_name as first_name,message.message as message,message.status as status,message.created_date as date,message.id as id');
+        $this->db->from('message');
+        $this->db->where('reciver_id',$uid);
+        if($userType=="native"){
+                         $this->db->join('users', 'users.social_id = message.sender_id');
+                   }else{
+                         $this->db->join('users', 'users.user_id = message.sender_id');
+                   }
+
+
+                $query = $this->db->get();
+               return $query->result_array();
+    }
+
+    function getMessageCount($uid,$userType){
+      $this->db->select('users.first_name as first_name');
+            $this->db->from('message');
+            $this->db->where('reciver_id',$uid);
+             if($userType=="native"){
+                  $this->db->join('users', 'users.social_id = message.sender_id');
+            }else{
+                  $this->db->join('users', 'users.user_id = message.sender_id');
+            }
+                    $query = $this->db->get();
+                   return $query->result_array();
+    }
+
+
     function saveOfferRide($data){
        $this->db->insert('rides', $data);
         return $this->db->insert_id();
@@ -50,6 +86,34 @@ class Model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
           
+    }
+
+    function confirmMobileCode($id,$mobile,$code,$uType){
+            if($uType=="native"){
+                $this->db->where('user_id',$id);
+            }else{
+                $this->db->where('social_id',$id);
+            }
+
+               $this->db->select('*');
+               $this->db->where('mobile_number',$mobile);
+                $this->db->where('mobile_verify_code',$code);
+              $query = $this->db->get('users');
+              if($query->result_array()){
+
+                           if($uType=="native"){
+                              $this->db->where('user_id',$id);
+                          }else{
+                              $this->db->where('social_id',$id);
+                          }
+                           $this->db->where('mobile_number',$mobile);
+                              $this->db->where('mobile_verify_code',$code);
+                            $data = array(
+                                 'mobile_verified' => 1,
+                              );
+
+                  return $query = $this->db->update('users',$data);
+              }
     }
 
     function updateMobileData($uid,$userType,$mobile,$code){

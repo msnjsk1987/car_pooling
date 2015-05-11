@@ -65,30 +65,14 @@
 					<div class="left">
 						<h4 class="mb5 text-light">Messages</h4>
                         <table class="messages-table table">
-                          <tr class="unread">
+                          <tr class="unread" ng-repeat="msg in messages">
                                 <th class="icons" scope="row">
                                     <input type="checkbox" class="" id="" ></th>
-                                <td class="from"><div><a href="mail-single.php">Tyrion Lannister</a></div></td>
-                                <td class="subject hidden-xs"><div><a href="mail-single.php">Donec dapibus leo vel turpis cursus ultrices. Curabitur sit amet imperdiet mauris. Donec at aliquet nisi. </a></div></td>
-                                <td class="summary hidden-xs"><div><a href="mail-single.php">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus viverra justo ac dui condimentum, eget bibendum lectus accumsan. Nulla facilisi</a></div></td>
+                                <td class="from"><div><a href="mail-single.php">{{msg.first_name}}</a></div></td>
+                                <td class="summary hidden-xs"><div><a href="mail-single.php">{{msg.message}}</a></div></td>
                                 <td class="date-time text-right"><a href="mail-single.php">8:26 am</a></td>
                            </tr>
-                             <tr class="unread">
-                                <th class="icons" scope="row">
-                                    <input type="checkbox" class="" id="" ></th>
-                                <td class="from"><div><a href="mail-single.php">Tyrion Lannister</a></div></td>
-                                <td class="subject hidden-xs"><div><a href="mail-single.php">Donec dapibus leo vel turpis cursus ultrices. Curabitur sit amet imperdiet mauris. Donec at aliquet nisi. </a></div></td>
-                                <td class="summary hidden-xs"><div><a href="mail-single.php">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus viverra justo ac dui condimentum, eget bibendum lectus accumsan. Nulla facilisi</a></div></td>
-                                <td class="date-time text-right"><a href="mail-single.php">8:26 am</a></td>
-                           </tr>
-                             <tr class="unread">
-                                <th class="icons" scope="row">
-                                    <input type="checkbox" class="" id="" ></th>
-                                <td class="from"><div><a href="mail-single.php">Tyrion Lannister</a></div></td>
-                                <td class="subject hidden-xs"><div><a href="mail-single.php">Donec dapibus leo vel turpis cursus ultrices. Curabitur sit amet imperdiet mauris. Donec at aliquet nisi. </a></div></td>
-                                <td class="summary hidden-xs"><div><a href="mail-single.php">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus viverra justo ac dui condimentum, eget bibendum lectus accumsan. Nulla facilisi</a></div></td>
-                                <td class="date-time text-right"><a href="mail-single.php">8:26 am</a></td>
-                           </tr>
+
                         </table>
 						
 					</div>

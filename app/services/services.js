@@ -2,6 +2,35 @@ carApp.factory('getRidesService', function($http) {
     var urlBase = 'http://localhost/car_pooling/api/index.php/services/';
     var dataFactory = {};
 
+    dataFactory.getMessageCount=function(uid,userType){
+        return $http({method:'GET', url:urlBase+'getMessageCount', params:{id:uid,userType:userType}});
+    }
+
+    dataFactory.getMessageDetail=function(uid,userType){
+        return $http({method:'GET', url:urlBase+'getMessageDetail', params:{id:uid,userType:userType}});
+    }
+
+    dataFactory.sendMessage=function(uid, driverId, contactDriver){
+        var data = {
+            sender: uid,
+            reciver:driverId,
+            message:contactDriver
+        };
+        return $http.post(urlBase+'sendMessage',data);
+
+    }
+
+    dataFactory.confirmMobileCode=function(userId,userType,mobile,code){
+        var data = {
+            id: userId,
+            userType:userType,
+            mobile:mobile,
+            code:code
+        };
+
+        return $http({method:'GET', url:urlBase+'confirmCode', params:data});
+    }
+
     dataFactory.storeMobileData=function(userId,userType,mobile,randomCode){
 
         var data = {

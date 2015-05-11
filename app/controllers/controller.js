@@ -21,6 +21,13 @@
     $scope.isLoggedIn = true;
     $scope.isLoggedOut = false;
     var userId=sessionStorage.uid;
+    var userType=sessionStorage.logType;
+
+
+    getRidesService.getMessageCount(userId,userType).success(function (responseMessageCount) {
+
+            $scope.messageCount=responseMessageCount.length;
+     });
 
 
     $scope.myTripTab=function(){
@@ -355,6 +362,7 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
         $scope.leave =data[0].leave;
         $scope.luggage =data[0].luggage_size;
         $scope.user_type=data[0].user_type;
+        $scope.userId=data[0].userid;
 
         if($scope.user_type=="facebook"){
             getRidesService.getUserDetails(data[0].userid,$scope.user_type).success(function (data) {
@@ -423,7 +431,8 @@ carApp.controller('rideDetailController',function($scope,getRidesService,$routeP
         if(!sessionStorage.length>0) {
                $scope.openModel();
         }else{
-            $scope.driverDetails = [{'diverName':$scope.userName,'driverNumber':$scope.mobileNumber}];
+            console.log($scope);
+            $scope.driverDetails = [{'diverName':$scope.userName,'driverNumber':$scope.mobileNumber,'driverId':$scope.userId}];
 
             var modalInstance  = $modal.open({
                 templateUrl: 'contactDriverModal.html',
@@ -445,6 +454,16 @@ carApp.controller('contactDriverModalInstanceCtrl', function ($scope, $modalInst
     $scope.isCollapsed = true;
     $scope.driverName=items[0].diverName;
     $scope.driverMobileNumber=items[0].driverNumber;
+    var uid=sessionStorage.uid;
+    $scope.sendMessageDriver=function(contactDriver){
+        if(uid==items[0].driverId){
+            alert('same');
+        }else {
+            getRidesService.sendMessage(uid, items[0].driverId, contactDriver.message).success(function (responseData) {
+
+            });
+        }
+    }
 });
 
 
@@ -490,8 +509,8 @@ carApp.controller('offerRidesController',function($scope,getRidesService,$modal)
         data.userid=uid;
         data.userType=sessionStorage.logType;
 
-        getRidesService.getUserDetails(data.userid,data.userType).success(function (data) {
-               if(data[0].mobile_verified==0){
+        getRidesService.getUserDetails(data.userid,data.userType).success(function (dataStatus) {
+               if(dataStatus[0].mobile_verified==0){
 
                    var modalInstance = $modal.open({
                        animation: $scope.animationsEnabled,
@@ -502,29 +521,54 @@ carApp.controller('offerRidesController',function($scope,getRidesService,$modal)
                    modalInstance.result.then(function (number) {
                        var randomNumber=Math.floor(Math.random()*9000) + 1000;
 
-                       getRidesService.storeMobileData(uid,userType,number,randomNumber).success(function (data) {
-                                    console.log(data);
-                       });
-
-
-
-                       var modalInstance2 = $modal.open({
-                           animation: $scope.animationsEnabled,
-                           templateUrl: 'mobileNumberConfirmContent.html',
-                           controller: 'mobileConfirmModalInstanceCtrl',
-                           resolve: {
-                               mobileNumber: function () {
-                                   return number;
+                       getRidesService.storeMobileData(uid,userType,number,randomNumber).success(function (dataQuery) {
+                           var dataItem = {
+                               id: uid,
+                               userType:userType,
+                               mobileNumber:number
+                           };
+                           var modalInstance2 = $modal.open({
+                               animation: $scope.animationsEnabled,
+                               templateUrl: 'mobileNumberConfirmContent.html',
+                               controller: 'mobileConfirmModalInstanceCtrl',
+                               resolve: {
+                                   items: function () {
+                                       return dataItem;
+                                   }
                                }
-                           }
+                           });
+
+
+                           modalInstance2.result.then(function (status) {
+                                    if(status===true){
+                                        getRidesService.postOffers(data).success(function(responseData){
+                                            var modalInstance = $modal.open({
+                                                animation: $scope.animationsEnabled,
+                                                templateUrl: 'publishofferSuccessContent.html',
+                                                backdrop: 'static', /*  this prevent user interaction with the background  */
+                                                keyboard: false,
+                                                controller: 'publishOfferModalInstanceCtrl',
+                                                resolve: {
+                                                    rideId: function () {
+                                                        return responseData;
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+                           });
                        });
+
+
+
+
 
                    }, function () {
                        $log.info('Modal dismissed at: ' + new Date());
                    });
 
                }else{
-                   getRidesService.postOffers(data).success(function(data){
+                   getRidesService.postOffers(data).success(function(response){
                        var modalInstance = $modal.open({
                            animation: $scope.animationsEnabled,
                            templateUrl: 'publishofferSuccessContent.html',
@@ -533,7 +577,7 @@ carApp.controller('offerRidesController',function($scope,getRidesService,$modal)
                            controller: 'publishOfferModalInstanceCtrl',
                            resolve: {
                                rideId: function () {
-                                   return data;
+                                   return response;
                                }
                            }
                        });
@@ -553,9 +597,16 @@ carApp.controller('offerRidesController',function($scope,getRidesService,$modal)
         };
     });
 
-    carApp.controller('mobileConfirmModalInstanceCtrl', function ($scope, $modalInstance, mobileNumber, $location) {
+    carApp.controller('mobileConfirmModalInstanceCtrl', function ($scope, $modalInstance, items, $location,getRidesService) {
 
-        $scope.mobileNumber=mobileNumber
+        $scope.mobileNumber=items.mobileNumber;
+        $scope.confirmMobile=function(){
+
+            getRidesService.confirmMobileCode(items.id,items.userType,$scope.mobileNumber,$scope.confirmCode).success(function (data) {
+                $modalInstance.close(data);
+            });
+
+        }
     });
 
     carApp.controller('mobileVerifyModalInstanceCtrl', function ($scope, $modalInstance , $location) {
@@ -568,6 +619,11 @@ carApp.controller('offerRidesController',function($scope,getRidesService,$modal)
     });
 
 
+
+
+
+
+
 /**Offer rides page controller
  * gmap height adjustment
  * gmap direction service
@@ -576,6 +632,18 @@ carApp.controller('dashboardController',function($scope,getRidesService,$modal){
 
     var userId=sessionStorage.uid;
     var userType=sessionStorage.logType;
+
+
+
+    getRidesService.getMessageDetail(userId,userType).success(function (responseMessage) {
+           $scope.messages=responseMessage;
+           $scope.messageCount=responseMessage.length;
+    });
+
+
+
+
+
     getRidesService.getUserDetails(userId,userType).success(function (data) {
          $scope.userDetail=data;
         if($scope.userDetail[0].mobile_verified==0){

@@ -40,9 +40,9 @@
                     <li ng-show="isLoggedIn"><a class="btn btn-success" ng-click="openModel()">Login</a></li>
                     <li ng-show="isLoggedIn"><a class="btn btn-success" ng-click="signUp()">Sign Up</a></li>
                     <li ng-show="isLoggedOut" class="mailNotification">
-                          <a href="#/message">
+                          <a href="#/dashboard">
                             <i class="fa fa-envelope"></i>
-                            <span class="notification error">1</span>
+                            <span class="notification error">{{messageCount}}</span>
                           </a>  
                     </li>
                     <li  ng-show="isLoggedOut" >
@@ -142,7 +142,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : contactDriverForm.message.$invalid && !contactDriverForm.message.$pristine }">
                                 <label for="message" class="pull-left">Message</label>
                                 <textarea required  class="form-control" ng-model="contactDriver.message" id="message" name="message" placeholder="Contact this car owner via private message here: you can ask them about journey details and seat availability." ></textarea>
-                                <p ng-show="contactDriverForm.message.$invalid && !contactDriverForm.message.$pristine" class="help-block">Please enter username.</p>
+                                <p ng-show="contactDriverForm.message.$invalid && !contactDriverForm.message.$pristine" class="help-block">Please enter Message.</p>
                             </div>
 
 
@@ -193,9 +193,9 @@
                 <p>An SMS has been sent to {{mobileNumber}}</p>
                 <div class="form-group">
                     <label for="confirmCode">Please enter the 4 digit number you recived by SMS</label>
-                    <input type="number" style="width:20%;margin:0 auto;" ng-model="code.confirmCode" class="form-control" id="confirmCode" placeholder="">
+                    <input type="number" maxlength="4" style="width:20%;margin:0 auto;" ng-model="confirmCode" class="form-control" id="confirmCode" placeholder="">
                 </div>
-                <button class="btn btn-primary" ng-click="confirmMobile(code)">Confirm</button>
+                <button class="btn btn-primary" ng-click="confirmMobile()">Confirm</button>
             </div>
             <div class="modal-footer">
                     <p>Haven't your SMS?Don't worry it might take 15 minute depending on your provider. </p>
